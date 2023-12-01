@@ -41,6 +41,9 @@ function init() {
 // Event handler called for each pointerdown event:
 function draw(e) {
   if (lastPt != null) {
+
+    // palm rejection with e.width
+
     let base =10;
     let penWidth = base+ (e.pressure*10);
 
