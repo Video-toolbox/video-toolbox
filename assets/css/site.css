@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(18, 17, 22);
+  display: grid;
+  grid-template-columns: 70vw 30vw;
+  grid-template-rows: 70vh 30vh;
+}
+
+#draw {
+  background-color: blueviolet;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#draw button {
+  padding: 5px;
+  background-color: lightgray;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#info {
+  background-color: brown;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#timeline {
+  background-color: blue;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.selected {
+  background-color: darkgrey;
+}
