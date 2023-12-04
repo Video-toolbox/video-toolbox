@@ -75,12 +75,11 @@ export class DrawEngine {
       // Draw it!
       this.ctx.stroke();
 
-      /*             ctx.beginPath();
-      test
+                ctx.beginPath();
+      
   ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
-  ctx.fill(); ergergergerg
-  egergerg
-   */
+  ctx.fill();
+   
 
 
     }
