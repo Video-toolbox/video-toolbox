@@ -60,7 +60,7 @@ export class DrawEngine {
 
 
       var r_a = 0.05//e.pressure;
-      this.ctx.strokeStyle = `rgba(255, 255, 200, ${r_a})`;
+      this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
