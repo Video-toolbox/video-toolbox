@@ -67,10 +67,10 @@ export class DrawEngine {
       this.ctx.beginPath();
 
       // Start at previous point
-
+      let bounds=this.canvas.getBoundingClientRect();
       this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
       // Line to latest point
-      let bounds=this.canvas.getBoundingClientRect();
+      
       this.ctx.lineTo(e.pageX-bounds.left, e.pageY-bounds.top);
       // Draw it!
       this.ctx.stroke();
@@ -85,7 +85,7 @@ export class DrawEngine {
     }
 
     //Store latest pointer
-    this.lastPt = { x: e.pageX, y: e.pageY };
+    this.lastPt = { x: e.pageX-bounds.left, y: e.pageY-bounds.top };
   }
 
   getOffset(obj) {
