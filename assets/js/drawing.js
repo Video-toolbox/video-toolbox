@@ -54,13 +54,13 @@ export class DrawEngine {
 
       // palm rejection with e.width
 
-      let base = 1;
+      let base = 5;
       let penWidth = base * (e.pressure *5);
 
 
 
       var r_a = 0.05//e.pressure;
-      this.ctx.strokeStyle = `rgba(32, 255, 21, ${r_a})`;
+      this.ctx.strokeStyle = `rgba(255, 255, 200, ${r_a})`;
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
