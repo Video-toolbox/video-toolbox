@@ -8,6 +8,7 @@ body {
   display: grid;
   grid-template-columns: 60vw 30vw;
   grid-template-rows: 60vh 30vh;
+  overflow: hidden;
 }
 
 #draw {
