@@ -1,8 +1,4 @@
 import { DrawEngine } from "./drawing.js";
 
-
-const myCanvas = document.getElementById('canvas');
-const ctx = myCanvas.getContext("2d");
-
+// add draw engine to html id
 const drawEngine = new DrawEngine('canvas');
-console.log(drawEngine);
