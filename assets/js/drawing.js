@@ -71,11 +71,12 @@ export class DrawEngine {
       this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
       // Line to latest point
       let bounds=this.canvas.getBoundingClientRect();
-      this.ctx.lineTo(e.pageX+bounds.left, e.pageY+bounds.top);
+      this.ctx.lineTo(e.pageX-bounds.left, e.pageY-bounds.top);
       // Draw it!
       this.ctx.stroke();
 
       /*             ctx.beginPath();
+      test
   ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
   ctx.fill(); */
 
