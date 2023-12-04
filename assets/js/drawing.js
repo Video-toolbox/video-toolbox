@@ -54,7 +54,7 @@ export class DrawEngine {
 
       // palm rejection with e.width
 
-      let base = 10;
+      let base = 1;
       let penWidth = base * (e.pressure *5);
 
 
@@ -78,7 +78,9 @@ export class DrawEngine {
       /*             ctx.beginPath();
       test
   ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
-  ctx.fill(); */
+  ctx.fill(); ergergergerg
+  egergerg
+   */
 
 
     }
