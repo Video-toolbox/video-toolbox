@@ -55,7 +55,7 @@ export class DrawEngine {
       // palm rejection with e.width
 
       let base = 10;
-      let penWidth = base + (e.pressure * 10);
+      let penWidth = base * (e.pressure * 10);
 
 
 
