@@ -17,6 +17,10 @@ body {
   grid-row-end: 2;
 }
 
+#canvas {
+  background-color: white;
+}
+
 #draw button {
   padding: 5px;
   background-color: lightgray;

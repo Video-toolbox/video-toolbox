@@ -1,3 +1,147 @@
+
+
+
+export class DrawEngine {
+
+  constructor (myCanvas) {
+    this.canvas = document.getElementById(myCanvas);
+    this.ass = myCanvas;
+    this.ctx = this.canvas.getContext("2d");
+    this.isDrawing = false;
+    this.points = [];
+    this.lastPt;
+
+
+
+    this.initialize()
+  }
+
+  initialize() {
+
+    //let offset = getOffset(this.canvas);
+
+    if (window.PointerEvent) {
+
+      //this.canvas.addEventListener("pointermove", this.draw.bind(this));
+
+      this.canvas.addEventListener("pointerdown", this.startPointer.bind(this), false);
+
+      this.canvas.addEventListener("pointerup", this.endPointer.bind(this), false);
+
+    } else {
+      this.points = [];
+      //Provide fallback for user agents that do not support Pointer Events
+      //this.canvas.addEventListener("mousemove", this.draw.bind(this));
+
+      this.canvas.addEventListener("mousedown", this.startPointer.bind(this), false);
+      this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
+    }
+  }
+
+
+  draw(e) {
+
+    //console.log(e);
+
+
+    if (!this.isDrawing) {
+      console.log('nope');
+      return
+    }
+
+    if (this.lastPt != null) {
+
+      // palm rejection with e.width
+
+      let base = 10;
+      let penWidth = base + (e.pressure * 10);
+
+
+
+      var r_a = 0.05//e.pressure;
+      this.ctx.strokeStyle = `rgba(32, 255, 21, ${r_a})`;
+
+      this.ctx.lineWidth = penWidth;
+      this.ctx.lineCap = "round";
+      this.ctx.beginPath();
+
+      // Start at previous point
+
+      this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
+      // Line to latest point
+      this.ctx.lineTo(e.pageX, e.pageY);
+      // Draw it!
+      this.ctx.stroke();
+
+      /*             ctx.beginPath();
+  ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
+  ctx.fill(); */
+
+
+    }
+
+    //Store latest pointer
+    this.lastPt = { x: e.pageX, y: e.pageY };
+  }
+
+  getOffset(obj) {
+    //...
+  }
+
+  toggleDraw() {
+    this.isDrawing = this.isDrawing ? false : true;;
+    console.log(this.isDrawing);
+
+  }
+
+  startPointer(e) {
+    this.isDrawing = true;
+
+    console.log('start pointer');
+    this.canvas.addEventListener("pointermove", this.draw.bind(this), false);
+    this.canvas.addEventListener("mousemove", this.draw.bind(this));
+
+  }
+
+  endPointer(e) {
+    //Stop tracking the pointermove (and mousemove) events
+    console.log('end pointer');
+    this.canvas.removeEventListener("pointermove", this.draw, false);
+    this.canvas.removeEventListener("mousemove", this.draw, false);
+
+    //Set last point to null to end our pointer path
+    this.lastPt = null;
+    this.isDrawing = false;
+    this.points = [];
+  }
+
+  midPointBtw(p1, p2) {
+    return {
+      x: p1.x + (p2.x - p1.x) / 2,
+      y: p1.y + (p2.y - p1.y) / 2,
+    };
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+
 var lastPt = null;
 var canvas;
 var ctx;
@@ -5,12 +149,14 @@ var ctx;
 var isDrawing,
   points = [];
 
+
 init();
 
 function init() {
   canvas = document.getElementById("canvas");
 
   ctx = canvas.getContext("2d");
+
   console.log(ctx);
   let offset = getOffset(canvas);
 
@@ -63,9 +209,9 @@ ctx.strokeStyle = `rgba(32, 255, 21, ${r_a})`;
             // Draw it!
             ctx.stroke();  
 
-    /*             ctx.beginPath();
+                ctx.beginPath();
 ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
-ctx.fill(); */
+ctx.fill(); 
 
     
   }
@@ -94,7 +240,7 @@ function midPointBtw(p1, p2) {
     x: p1.x + (p2.x - p1.x) / 2,
     y: p1.y + (p2.y - p1.y) / 2,
   };
-}
+} 
 /*
 
 
