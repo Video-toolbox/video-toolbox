@@ -10,6 +10,7 @@ export class DrawEngine {
     this.isDrawing = false;
     this.points = [];
     this.lastPt;
+    this.myDraw = this.draw.bind(this);
 
 
 
@@ -96,20 +97,21 @@ export class DrawEngine {
 
   startPointer(e) {
     this.isDrawing = true;
-
+    this.canvas.addEventListener("pointermove", this.myDraw, false);
+    this.canvas.addEventListener("mousemove", this.myDraw, false);
     console.log('start pointer');
-    this.canvas.addEventListener("pointermove", this.draw.bind(this), false);
-    this.canvas.addEventListener("mousemove", this.draw.bind(this));
+
 
   }
 
   endPointer(e) {
     //Stop tracking the pointermove (and mousemove) events
-    console.log('end pointer');
-    this.canvas.removeEventListener("pointermove", this.draw, false);
-    this.canvas.removeEventListener("mousemove", this.draw, false);
 
-    //Set last point to null to end our pointer path
+    this.canvas.removeEventListener("pointermove", this.myDraw, false);
+    this.canvas.removeEventListener("mousemove", this.myDraw, false);
+
+    console.log('end pointer');
+
     this.lastPt = null;
     this.isDrawing = false;
     this.points = [];
