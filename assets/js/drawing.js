@@ -50,6 +50,8 @@ export class DrawEngine {
       return
     }
 
+    let bounds=this.canvas.getBoundingClientRect();
+
     if (this.lastPt != null) {
 
       // palm rejection with e.width
@@ -67,7 +69,7 @@ export class DrawEngine {
       this.ctx.beginPath();
 
       // Start at previous point
-      let bounds=this.canvas.getBoundingClientRect();
+    
       this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
       // Line to latest point
       
