@@ -70,7 +70,8 @@ export class DrawEngine {
 
       this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
       // Line to latest point
-      this.ctx.lineTo(e.pageX, e.pageY);
+      let bounds=this.canvas.getBoundingClientRect();
+      this.ctx.lineTo(e.pageX+bounds.left, e.pageY+bounds.top);
       // Draw it!
       this.ctx.stroke();
 
