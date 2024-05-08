@@ -21,6 +21,9 @@ body {
   grid-template-columns: 1080px auto;
   grid-template-rows:5vH 720px auto;
 
+  user-select: none;
+  -webkit-user-select: none;
+
 }
 
 
