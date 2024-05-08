@@ -1,5 +1,11 @@
 import { DrawEngine } from "./drawing.js";
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+
+  
+
 // add draw engine to html id
 const drawEngine = new DrawEngine('canvas');
 
