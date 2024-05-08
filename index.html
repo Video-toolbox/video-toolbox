@@ -12,30 +12,36 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/css/site.css">
-    <script type="module" src="assets/js/site.js" defer></script>
+    <script type="module" src="assets/js/site.js"></script>
+    <script type="module" src="assets/js/drawing.js"></script>
 </head>
 
 <body>
 
 
+    <section id="tools">
+        <button id="pencil">Pencil</button>
+        <button id="marker">Marker</button>
+        <button id="eraser">Eraser</button>
+        <button id="bucket">Fill</button>
+        <button id="save">save</button>
+        <button id="load">load</button>
+
+    </section>
+
 
     <section id="draw">
-        <section id="tools">
-            <button id="pencil">Pencil</button>
-            <button id="marker">Marker</button>
-            <button id="eraser">Eraser</button>
-            <button id="bucket">Fill</button>
-
-        </section>
-        <canvas id="canvas"></canvas>
+        <canvas id="canvas" width="1080" height="720"></canvas>
     </section>
+
     <section id="info">
 
     </section>
 
     <section id="timeline">
-
+<h2>timeline</h2>
     </section>
+
 
 </body>
 
