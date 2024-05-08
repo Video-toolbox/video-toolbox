@@ -3,3 +3,53 @@ canvas {
     border: 1px solid black;
   
   }
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(18, 17, 22);
+  display: grid;
+  grid-template-columns: 60vw 10vw;
+  grid-template-rows: 60vh 10vh;
+  overflow: hidden;
+}
+
+#draw {
+  background-color: blueviolet;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#canvas {
+  background-color: white;
+}
+
+#draw button {
+  padding: 5px;
+  background-color: lightgray;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#info {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#timeline {
+  background-color: rgb(44, 44, 49);
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.selected {
+  background-color: darkgrey;
+}
