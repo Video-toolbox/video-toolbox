@@ -10,7 +10,7 @@ body {
   background-color: rgb(18, 17, 22);
   display: grid;
   grid-template-columns: 1080px auto;
-  grid-template-rows:10vH 720px auto;
+  grid-template-rows:5vH 720px auto;
 
 }
 
