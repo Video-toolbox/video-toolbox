@@ -11,6 +11,9 @@ export class DrawEngine {
     this.points = [];
     this.lastPt;
     this.myDraw = this.draw.bind(this);
+    this.currentTool='pencil';
+    this.selectedColor=[0,0,0,1];
+
 
 
 
@@ -61,13 +64,16 @@ export class DrawEngine {
         alert('too fat')
       }
 
-      let base = 5;
+      let base = 10;
       let penWidth = base * (e.pressure *5);
 
 
 
       var r_a = 1//0.05//e.pressure;
-      this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
+
+      //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
+
+      this.ctx.strokeStyle =`rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
@@ -163,6 +169,11 @@ this.ClearCanvas()
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.points = [];
     this.lastPt = null;
+  }
+
+  SetColor(myColArray){
+    this.selectedColor=myColArray;
+
   }
 
 }
