@@ -57,12 +57,16 @@ export class DrawEngine {
 
       // palm rejection with e.width
 
+      if(e.width>2){
+        alert('too fat')
+      }
+
       let base = 5;
       let penWidth = base * (e.pressure *5);
 
 
 
-      var r_a = 0.05//e.pressure;
+      var r_a = 1//0.05//e.pressure;
       this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
       this.ctx.lineWidth = penWidth;
