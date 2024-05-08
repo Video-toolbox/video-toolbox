@@ -52,6 +52,7 @@ export class DrawEngine {
 
     let bounds=this.canvas.getBoundingClientRect();
 
+
     if (this.lastPt != null) {
 
       // palm rejection with e.width
@@ -96,7 +97,7 @@ export class DrawEngine {
 
   toggleDraw() {
     this.isDrawing = this.isDrawing ? false : true;;
-    console.log(this.isDrawing);
+    //console.log(this.isDrawing);
 
   }
 
@@ -104,7 +105,7 @@ export class DrawEngine {
     this.isDrawing = true;
     this.canvas.addEventListener("pointermove", this.myDraw, false);
     this.canvas.addEventListener("mousemove", this.myDraw, false);
-    console.log('start pointer');
+    //console.log('start pointer');
 
 
   }
@@ -115,7 +116,7 @@ export class DrawEngine {
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
     this.canvas.removeEventListener("mousemove", this.myDraw, false);
 
-    console.log('end pointer');
+    //console.log('end pointer');
 
     this.lastPt = null;
     this.isDrawing = false;
@@ -127,6 +128,37 @@ export class DrawEngine {
       x: p1.x + (p2.x - p1.x) / 2,
       y: p1.y + (p2.y - p1.y) / 2,
     };
+  }
+
+
+  SaveSLide(){
+    localStorage.setItem('testImage', canvas.toDataURL());
+
+  }
+
+  LoadSlide(){
+
+    var dataURL = localStorage.getItem('testImage');
+
+var img = new Image;
+img.src = dataURL;
+
+
+let myCtx=this.ctx
+this.ClearCanvas()
+
+ img.onload = function () {
+ 
+  myCtx.drawImage(img, 0, 0);
+};
+
+  }
+
+
+  ClearCanvas() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.points = [];
+    this.lastPt = null;
   }
 
 }
