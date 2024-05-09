@@ -1,9 +1,5 @@
-
-
-
 export class DrawEngine {
-
-  constructor (myCanvas) {
+  constructor(myCanvas) {
     this.canvas = document.getElementById(myCanvas);
     this.ass = myCanvas;
     this.ctx = this.canvas.getContext("2d");
@@ -11,94 +7,109 @@ export class DrawEngine {
     this.points = [];
     this.lastPt;
     this.myDraw = this.draw.bind(this);
-    this.currentTool='pencil';
-    this.selectedColor=[0,0,0,1];
+    this.currentTool = "pencil";
+    this.selectedColor = [0, 0, 0, 1];
 
-
-
-
-    this.initialize()
+    this.initialize();
   }
 
   initialize() {
-
     //let offset = getOffset(this.canvas);
 
     if (window.PointerEvent) {
-
       //this.canvas.addEventListener("pointermove", this.draw.bind(this));
 
-      this.canvas.addEventListener("pointerdown", this.startPointer.bind(this), false);
+      this.canvas.addEventListener(
+        "pointerdown",
+        this.startPointer.bind(this),
+        false
+      );
 
-      this.canvas.addEventListener("pointerup", this.endPointer.bind(this), false);
-
+      this.canvas.addEventListener(
+        "pointerup",
+        this.endPointer.bind(this),
+        false
+      );
     } else {
       this.points = [];
       //Provide fallback for user agents that do not support Pointer Events
       //this.canvas.addEventListener("mousemove", this.draw.bind(this));
 
-      this.canvas.addEventListener("mousedown", this.startPointer.bind(this), false);
+      this.canvas.addEventListener(
+        "mousedown",
+        this.startPointer.bind(this),
+        false
+      );
       this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
     }
   }
 
-
   draw(e) {
-
     //console.log(e);
-
+    /*
+    https://stackoverflow.com/questions/57711515/javascript-eventlistener-pointermove-points-per-second
+    */
 
     if (!this.isDrawing) {
-      console.log('nope');
-      return
+      console.log("nope");
+      return;
     }
 
-    let bounds=this.canvas.getBoundingClientRect();
-
+    let bounds = this.canvas.getBoundingClientRect();
 
     if (this.lastPt != null) {
-
       // palm rejection with e.width
 
-      if(e.width>2){
-        alert('too fat')
+      if (e.width > 2) {
+        alert("too fat");
       }
 
       let base = 10;
-      let penWidth = base * (e.pressure *5);
+      let pressure = e.pressure;
 
+      
 
+      if (pressure <= 0) {
+        pressure = 0.01;
+      }
 
-      var r_a = 1//0.05//e.pressure;
+      let penWidth = base * (pressure * 5);
+
+      var r_a =1;
 
       //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
-      this.ctx.strokeStyle =`rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
+      this.ctx.strokeStyle = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
       this.ctx.beginPath();
 
       // Start at previous point
-    
+
       this.ctx.moveTo(this.lastPt.x, this.lastPt.y);
       // Line to latest point
-      
-      this.ctx.lineTo(e.pageX-bounds.left, e.pageY-bounds.top);
+
+      this.ctx.lineTo(e.pageX - bounds.left, e.pageY - bounds.top);
       // Draw it!
       this.ctx.stroke();
 
-              //  ctx.beginPath();
-      
-  //ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
-  //ctx.fill();
-   
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
+      this.ctx.shadowBlur = 2;
 
+      this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, 1)`;
 
+      this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
+
+      //  ctx.beginPath();
+
+      //ctx.ellipse(e.pageX, e.pageY, penWidth, penWidth, Math.PI / 4, 0, 2 * Math.PI);
+      //ctx.fill();
     }
 
     //Store latest pointer
-    this.lastPt = { x: e.pageX-bounds.left, y: e.pageY-bounds.top };
+    this.lastPt = { x: e.pageX - bounds.left, y: e.pageY - bounds.top };
   }
 
   getOffset(obj) {
@@ -106,9 +117,8 @@ export class DrawEngine {
   }
 
   toggleDraw() {
-    this.isDrawing = this.isDrawing ? false : true;;
+    this.isDrawing = this.isDrawing ? false : true;
     //console.log(this.isDrawing);
-
   }
 
   startPointer(e) {
@@ -116,8 +126,6 @@ export class DrawEngine {
     this.canvas.addEventListener("pointermove", this.myDraw, false);
     this.canvas.addEventListener("mousemove", this.myDraw, false);
     //console.log('start pointer');
-
-
   }
 
   endPointer(e) {
@@ -140,30 +148,23 @@ export class DrawEngine {
     };
   }
 
-
-  SaveSLide(){
-    localStorage.setItem('testImage', canvas.toDataURL());
-
+  SaveSLide() {
+    localStorage.setItem("testImage", canvas.toDataURL());
   }
 
-  LoadSlide(){
+  LoadSlide() {
+    var dataURL = localStorage.getItem("testImage");
 
-    var dataURL = localStorage.getItem('testImage');
+    var img = new Image();
+    img.src = dataURL;
 
-var img = new Image;
-img.src = dataURL;
+    let myCtx = this.ctx;
+    this.ClearCanvas();
 
-
-let myCtx=this.ctx
-this.ClearCanvas()
-
- img.onload = function () {
- 
-  myCtx.drawImage(img, 0, 0);
-};
-
+    img.onload = function () {
+      myCtx.drawImage(img, 0, 0);
+    };
   }
-
 
   ClearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -171,27 +172,10 @@ this.ClearCanvas()
     this.lastPt = null;
   }
 
-  SetColor(myColArray){
-    this.selectedColor=myColArray;
-
+  SetColor(myColArray) {
+    this.selectedColor = myColArray;
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* 
 
