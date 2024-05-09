@@ -48,6 +48,8 @@ export class DrawEngine {
     //console.log(e);
     /*
     https://stackoverflow.com/questions/57711515/javascript-eventlistener-pointermove-points-per-second
+
+    https://developer.mozilla.org/en-US/docs/Web/API/Element/hasPointerCapture
     */
 
     if (!this.isDrawing) {
@@ -70,10 +72,10 @@ export class DrawEngine {
       
 
       if (pressure <= 0) {
-        pressure = 0.01;
+        pressure = 0.009;
       }
 
-      let penWidth = base * (pressure * 5);
+      let penWidth = base * (pressure * 4);
 
       var r_a =1;
 
