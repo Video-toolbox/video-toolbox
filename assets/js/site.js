@@ -1,38 +1,37 @@
 import { DrawEngine } from "./drawing.js";
-import {InitStoryboard,CreateSlide,updateSlideImage} from "./modules/storyboard_module.js";
+import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage} from "./modules/storyboard_module.js";
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
   }
 
+  // add draw engine to html id
+const drawEngine = new DrawEngine('canvas');
 
   // start storyboard
   let storyboardElement=document.getElementById('timeline');
-
-  console.log(storyboardElement);
-
-  InitStoryboard(storyboardElement)
+  InitStoryboard(storyboardElement,drawEngine.SaveSLide())
+ 
   
-
-// add draw engine to html id
-const drawEngine = new DrawEngine('canvas');
-
 
 let saveButton=document.getElementById('save');
 
 saveButton.addEventListener('click',()=>{
-  
 updateSlideImage(drawEngine.SaveSLide())
-    console.log();
-
 })
 
 
-let loadButton=document.getElementById('load');
 
-loadButton.addEventListener('click',()=>{
+
+
+
+let newSLide=document.getElementById('newSlide');
+
+newSLide.addEventListener('click',()=>{
    // drawEngine.LoadSlide()
-    
+   drawEngine.ClearCanvas()
+   CreateSlide(drawEngine.SaveSLide())
+
 
 })
 
@@ -62,12 +61,17 @@ pencilButton.addEventListener('click',()=>{
 })
 
 
+export function LoadSlideCallback(myIndex){
+
+console.log('loading callback: '+myIndex);
+drawEngine.LoadSlide(LoadSlideImage(myIndex))
+}
 
 
 
 
 
-console.log(`Local storage usage: ${localStorageSpace()}`);
+//console.log(`Local storage usage: ${localStorageSpace()}`);
 
 
 

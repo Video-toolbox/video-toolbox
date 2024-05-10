@@ -1,7 +1,8 @@
 import { ReadObject, SaveObject } from "./localstorage_object_module.js";
+import { LoadSlideCallback } from "../site.js";
 
 export let StoryboardElement = null;
-let currentSlide = 0;
+ let currentSlide = 0;
 
 export let activeStoryboard = {
   slides: [],
@@ -22,12 +23,12 @@ export let activeSlide = {
   image: null,
 };
 
-export function InitStoryboard(myElement) {
+export function InitStoryboard(myElement,imageData) {
   StoryboardElement = myElement;
-  CreateStoryboard("test story", "bo", "new storyboard");
+  CreateStoryboard("test story", "bo", "new storyboard",imageData);
 }
 
-export function CreateStoryboard(name, author, description) {
+export function CreateStoryboard(name, author, description,imageData) {
   activeStoryboard = {
     slides: [],
     info: {
@@ -36,12 +37,13 @@ export function CreateStoryboard(name, author, description) {
       description: description,
     },
   };
-  CreateSlide();
+
+  CreateSlide(imageData);
 
   console.log(activeStoryboard);
 }
 
-export function CreateSlide() {
+export function CreateSlide(myImagedata) {
   activeSlide = {
     info: {
       title: "Slide " + (activeStoryboard.slides.length + 1),
@@ -49,17 +51,29 @@ export function CreateSlide() {
       dialog: "",
       duration: 2,
     },
-    image: null,
+    image: myImagedata
   };
   activeStoryboard.slides.push(activeSlide);
   currentSlide = activeStoryboard.slides.length - 1;
+  console.log(currentSlide);
 
   SaveStoryboard();
   ShowStoryboard();
 }
 
+export function LoadSlideImage(mySlide){
+    console.log('returning slide: '+mySlide);
+    currentSlide= mySlide
+
+    return activeStoryboard.slides[currentSlide].image
+
+
+}
+
 export function updateSlideImage(myImage) {
+    console.log('updateSlideImage: '+currentSlide);
   activeStoryboard.slides[currentSlide].image = myImage;
+  console.table(activeStoryboard.slides);
   SaveStoryboard();
   ShowStoryboard();
 }
@@ -78,16 +92,26 @@ export function LoadStoryboard() {
 }
 
 function ShowStoryboard() {
-  StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
+    StoryboardElement.innerHTML = '';
+  //StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
 
-  activeStoryboard.slides.forEach((slide) => {
+  activeStoryboard.slides.forEach((slide,index) => {
     var img = new Image();
     //img.src = dataURL;
     img.src = slide.image;
 
     img.onload = function () {
+
       let mySlide = document.createElement("div");
       mySlide.classList.add("slide");
+
+      mySlide.addEventListener('click',()=>{
+
+
+LoadSlideCallback(index);
+
+      })
+
       //mySlide.innerHTML = `<h3>${slide.info.title}</h3>`;
       mySlide.appendChild(img);
       StoryboardElement.appendChild(mySlide);

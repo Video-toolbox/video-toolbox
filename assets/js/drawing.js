@@ -163,7 +163,7 @@ export class DrawEngine {
   }
 
   LoadSlide(slideData) {
-    var dataURL = localStorage.getItem("testImage");
+    //var dataURL = localStorage.getItem("testImage");
 
     var img = new Image();
     //img.src = dataURL;
@@ -181,6 +181,7 @@ export class DrawEngine {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.points = [];
     this.lastPt = null;
+    this.currentImageData=this.canvas.toDataURL()
   }
 
   SetColor(myColArray) {
