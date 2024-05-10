@@ -1,11 +1,15 @@
-
-import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage,LoadStoryboard} from "./modules/storyboard_module.js";
+import {
+  InitStoryboard,
+  CreateSlide,
+  updateSlideImage,
+  LoadSlideImage,
+  LoadStoryboard,
+} from "./modules/storyboard_module.js";
 
 export class DrawEngine {
-
-  constructor(myCanvas,myToolBar) {
+  constructor(myCanvas, myToolBar) {
     this.canvas = document.getElementById(myCanvas);
-    this.toolbarElement=document.getElementById(myToolBar);
+    this.toolbarElement = document.getElementById(myToolBar);
     this.ass = myCanvas;
     this.ctx = this.canvas.getContext("2d");
     this.isDrawing = false;
@@ -14,148 +18,152 @@ export class DrawEngine {
     this.myDraw = this.draw.bind(this);
     this.currentTool = "pencil";
     this.selectedColor = [0, 0, 0, 1];
-    this.currentWidth=5;
-    this.widthSlider=null
-    this.pressurSense=true;
-    this.currentImageData=null
-    this.updateSlideFunction=updateSlideImage
-    this.tools=['pencil','pen','marker','eraser','clear']
-    
+    this.currentWidth = 5;
+    this.widthSlider = null;
+    this.pressurSense = true;
+    this.currentImageData = null;
+    this.updateSlideFunction = updateSlideImage;
+    this.tools = ["pencil", "pen", "marker", "eraser", "clear"];
+    this.colorSelectorContainer = null;
 
     this.CreateToolMenu();
     this.initialize();
   }
 
-  CreateToolMenu(){
+  CreateToolMenu() {
     // Create a tool menu for the drawing canvas
     // This could include options for different drawing tools (pencil, eraser, etc.)
     // and color selection
-    this.toolbarElement.innerHTML=""
+    this.toolbarElement.innerHTML = "";
 
+    let myToolbar = document.createElement("section");
 
+    this.toolbarElement.appendChild(myToolbar);
 
-    let myToolbar=document.createElement('section');
+    this.tools.forEach((element, index) => {
+      let myTool = document.createElement("div");
+      myTool.innerText = element;
+      myTool.style.height = "50px";
+      myTool.style.width = "50px";
+      myTool.style.backgroundColor="rgb(100,100,100)";
 
-    this.toolbarElement.appendChild(myToolbar)
-
-
-    this.tools.forEach((element,index) => {
-
-      let myTool=document.createElement('div');
-      myTool.innerText=element;
-      myTool.style.height="50px";
-      myTool.style.width="50px";
-      myTool.style.backgroundColor="rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
-
-      myTool.addEventListener('pointerdown',(e)=>{
+      myTool.addEventListener("pointerdown", (e) => {
         this.CahngeTool(index);
-        e.stopPropagation()
-      })
-      myToolbar.appendChild(myTool)
-    
+        e.stopPropagation();
+      });
+      myToolbar.appendChild(myTool);
     });
 
-    
-let mySettings=document.createElement('section');
+    let mySettings = document.createElement("section");
 
-    this.toolbarElement.appendChild(mySettings)
+    this.toolbarElement.appendChild(mySettings);
 
     // settings
-    let mySlider=document.createElement('input');
-    mySlider.type="range"
-    mySlider.id="strokeWidth"
-    mySlider.name="strokeWidth"
-    mySlider.min="1"
-    mySlider.max="80"
-    mySlider.value=this.currentWidth
+    let mySlider = document.createElement("input");
+    mySlider.type = "range";
+    mySlider.id = "strokeWidth";
+    mySlider.name = "strokeWidth";
+    mySlider.min = "1";
+    mySlider.max = "80";
+    mySlider.value = this.currentWidth;
 
-    mySlider.addEventListener('input',(e)=>{
-      e.stopPropagation()
-      this.currentWidth=mySlider.value
-    })
+    mySlider.addEventListener("input", (e) => {
+      e.stopPropagation();
+      this.currentWidth = mySlider.value;
+    });
 
-    this.widthSlider=mySlider;
+    this.widthSlider = mySlider;
 
     mySettings.appendChild(mySlider);
 
-    
-
     // colors
 
-    let myColorBox=document.createElement('section');
+    let myColorBox = document.createElement("section");
 
-    this.toolbarElement.appendChild(myColorBox)
+    this.toolbarElement.appendChild(myColorBox);
 
-    for (let index = 0; index < 2; index++) {
+ 
 
-      let myTool=document.createElement('div');
+    let colorSelector = document.createElement("input");
+    colorSelector.type = "color";
+    colorSelector.id = "colorSelector";
 
-      let myColor=`rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},1)`;
-      myTool.style.backgroundColor=myColor;
-      myTool.style.height="50px";
-      myTool.style.width="50px";
+    colorSelector.addEventListener("input", (e) => {
+      e.stopPropagation();
+      let color = e.target.value;
 
-      
+      let rgb = this.hexToRgb(color);
+      console.log(color, rgb);
 
+      let arr = rgb
+        .substring(4, rgb.length - 1)
+        .replace(/ /g, "")
+        .split(",");
+      console.log(arr);
 
-      myTool.addEventListener('pointerdown',(e)=>{
-        e.stopPropagation()
-        console.log(e.target.style.backgroundColor);
-        let colorArray = e.target.style.backgroundColor.match(/\d+/g).map(Number);
-        this.SetColor(colorArray)
+      arr.push('1')
+      this.selectedColor = arr.map((element) => {
+        return parseInt(element, 10);
       });
+    });
 
-      myColorBox.appendChild(myTool);
-    
-    };
+    myColorBox.appendChild(colorSelector);
+  }
 
-
-      
+  hexToRgb(str) {
+    if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/gi.test(str)) {
+      var hex = str.substr(1);
+      hex = hex.length == 3 ? hex.replace(/(.)/g, "$1$1") : hex;
+      var rgb = parseInt(hex, 16);
+      return (
+        "rgb(" +
+        [(rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255].join(",") +
+        ")"
+      );
     }
-  
-   
-  
 
-  CahngeTool(myToolIndex){
-console.log('change to: '+this.tools[myToolIndex]);
-this.currentTool = this.tools[myToolIndex];
+    return false;
+  }
 
-//['pencil','pen','marker','eraser']
-switch (this.currentTool) {
+  CahngeTool(myToolIndex) {
+    console.log("change to: " + this.tools[myToolIndex]);
+    this.currentTool = this.tools[myToolIndex];
 
-  case 'pencil':
-    //this.SetColor([20,20,20,0.5])
-    this.currentWidth=2;
-   
-    this.pressurSense=false;
-    break;
+    //['pencil','pen','marker','eraser']
+    switch (this.currentTool) {
+      case "pencil":
+        //this.SetColor([20,20,20,0.5])
+        this.currentWidth = 2;
 
-    case 'pen':
-      //this.SetColor([0,0,0,1])
-      this.currentWidth=5;
-      this.pressurSense=true;
-    break;
+        this.pressurSense = false;
+        break;
 
-    case 'marker':
-     // this.SetColor([100,100,100,1])
-      this.currentWidth=30;
-      this.pressurSense=false;
-    break;
+      case "pen":
+        //this.SetColor([0,0,0,1])
+        this.currentWidth = 5;
+        this.pressurSense = true;
+        break;
 
-    case 'eraser':
-    this.currentWidth=10;
-    this.pressurSense=false;
-    break;
+      case "marker":
+        // this.SetColor([100,100,100,1])
+        this.currentWidth = 30;
+        this.pressurSense = false;
+        break;
 
-    case 'clear':
-     this.ClearCanvas()
-    this.updateSlideFunction( this.currentImageData)
-      break;
+      case "eraser":
+        this.currentWidth = 10;
+        this.pressurSense = false;
+        break;
 
-  default:
-    break;
-}
-this.widthSlider.value=this.currentWidth
+      case "clear":
+        this.ClearCanvas();
+        this.updateSlideFunction(this.currentImageData);
+        break;
+
+      default:
+        break;
+    }
+    this.widthSlider.value = this.currentWidth;
   }
 
   initialize() {
@@ -188,7 +196,7 @@ this.widthSlider.value=this.currentWidth
       this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
     }
 
-    this.currentImageData=this.canvas.toDataURL()
+    this.currentImageData = this.canvas.toDataURL();
   }
 
   draw(e) {
@@ -210,49 +218,35 @@ this.widthSlider.value=this.currentWidth
       // palm rejection with e.width
 
       if (e.width > 2) {
-       //alert("too fat");
+        //alert("too fat");
       }
 
       let penWidth = this.currentWidth;
-      let r_a =1;
+      let r_a = 1;
 
-      if(this.pressurSense){
-
-       
+      if (this.pressurSense) {
         let pressure = e.pressure;
         if (pressure <= 0) {
           pressure = 0.009;
         }
 
         // improve opacity
-         //r_a =pressure*0.5;
+        //r_a =pressure*0.5;
 
-
-
-         penWidth = this.currentWidth * (pressure * 3);
-
+        penWidth = this.currentWidth * (pressure * 3);
       }
-      
-      
+
       console.log(r_a);
-
-     
-
-      
-
-      
 
       //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
-      if(this.currentTool==='eraser'){
+      if (this.currentTool === "eraser") {
         this.ctx.strokeStyle = `rgba(255,255,255,1)`;
         this.ctx.shadowColor = `rgba(255,255,255,${r_a})`;
-       
-      }else{
+      } else {
         this.ctx.strokeStyle = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
         this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
       }
-    
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
@@ -281,7 +275,6 @@ this.widthSlider.value=this.currentWidth
 
     //Store latest pointer
     this.lastPt = { x: e.pageX - bounds.left, y: e.pageY - bounds.top };
-  
   }
 
   getOffset(obj) {
@@ -311,8 +304,8 @@ this.widthSlider.value=this.currentWidth
     this.lastPt = null;
     this.isDrawing = false;
     this.points = [];
-    this.currentImageData=this.canvas.toDataURL()
-    this.updateSlideFunction( this.currentImageData)
+    this.currentImageData = this.canvas.toDataURL();
+    this.updateSlideFunction(this.currentImageData);
   }
 
   midPointBtw(p1, p2) {
@@ -323,7 +316,7 @@ this.widthSlider.value=this.currentWidth
   }
 
   SaveSLide() {
-    return this.currentImageData
+    return this.currentImageData;
     //localStorage.setItem("testImage", canvas.toDataURL());
   }
 
@@ -333,7 +326,7 @@ this.widthSlider.value=this.currentWidth
     var img = new Image();
 
     //img.src = dataURL;
-    img.src=slideData;
+    img.src = slideData;
 
     let myCtx = this.ctx;
     this.ClearCanvas();
@@ -341,17 +334,16 @@ this.widthSlider.value=this.currentWidth
     img.onload = function () {
       myCtx.drawImage(img, 0, 0);
     };
-    this.currentImageData=slideData
+    this.currentImageData = slideData;
 
-   
-    this.updateSlideFunction( this.currentImageData)
+    this.updateSlideFunction(this.currentImageData);
   }
 
   ClearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.points = [];
     this.lastPt = null;
-    this.currentImageData=this.canvas.toDataURL()
+    this.currentImageData = this.canvas.toDataURL();
     //this.updateSlideFunction( this.currentImageData)
   }
 
