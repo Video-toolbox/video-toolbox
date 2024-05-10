@@ -2,8 +2,10 @@
 import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage,LoadStoryboard} from "./modules/storyboard_module.js";
 
 export class DrawEngine {
-  constructor(myCanvas) {
+
+  constructor(myCanvas,myToolBar) {
     this.canvas = document.getElementById(myCanvas);
+    this.toolbarElement=document.getElementById(myToolBar);
     this.ass = myCanvas;
     this.ctx = this.canvas.getContext("2d");
     this.isDrawing = false;
@@ -14,8 +16,59 @@ export class DrawEngine {
     this.selectedColor = [0, 0, 0, 1];
     this.currentImageData=null
     this.updateSlideFunction=updateSlideImage
+    this.tools=['pencil','pen','marker','eraser']
 
+    this.CreateToolMenu();
     this.initialize();
+  }
+
+  CreateToolMenu(){
+    // Create a tool menu for the drawing canvas
+    // This could include options for different drawing tools (pencil, eraser, etc.)
+    // and color selection
+    this.toolbarElement.innerHTML=""
+    this.tools.forEach((element,index) => {
+
+
+      let myTool=document.createElement('div');
+      myTool.innerText=element;
+
+      myTool.addEventListener('click',()=>{
+        this.CahngeTool(index);
+      })
+      this.toolbarElement.appendChild(myTool)
+    
+    });
+  
+   
+  }
+
+  CahngeTool(myToolIndex){
+console.log('change to: '+this.tools[myToolIndex]);
+this.currentTool = this.tools[myToolIndex];
+
+//['pencil','pen','marker','eraser']
+switch (this.currentTool) {
+
+  case 'pencil':
+    this.SetColor([20,20,20,0.5])
+    break;
+
+    case 'pen':
+      this.SetColor([0,0,0,1])
+    break;
+
+    case 'marker':
+      this.SetColor([100,100,100,1])
+    break;
+
+    case 'eraser':
+    this.SetColor([255,255,255,1])
+    break;
+
+  default:
+    break;
+}
   }
 
   initialize() {
@@ -168,7 +221,6 @@ export class DrawEngine {
   LoadSlide(slideData) {
     //var dataURL = localStorage.getItem("testImage");
 
-   
     var img = new Image();
 
     //img.src = dataURL;

@@ -6,7 +6,9 @@ if ("serviceWorker" in navigator) {
   }
 
   // add draw engine to html id
-export const drawEngine = new DrawEngine('canvas');
+
+
+export const drawEngine = new DrawEngine('canvas','tools');
 
   // start storyboard
   let storyboardElement=document.getElementById('timeline');
@@ -32,7 +34,7 @@ newSLide.addEventListener('click',()=>{
 
 })
 
-
+/* 
 let clearButton=document.getElementById('clear');
 
 clearButton.addEventListener('click',()=>{
@@ -56,7 +58,7 @@ pencilButton.addEventListener('click',()=>{
     
 
 })
-
+ */
 
 export function LoadSlideCallback(myIndex){
 
