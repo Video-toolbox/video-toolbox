@@ -157,8 +157,26 @@ height: 20px;
 
  #colorSelector{
   height: 50px;
-  aspect-ratio: 1/1;
+ 
+  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
  }
+
+ #colorSelector::-webkit-color-swatch {
+  
+
+  border: 2px solid #ffffff;
+}
+#colorSelector::-moz-color-swatch {
+
+
+  border: 2px solid #ffffff;
+}
+ 
 
  
 
