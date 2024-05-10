@@ -15,12 +15,7 @@ export const drawEngine = new DrawEngine('canvas');
 
   
 
-let saveButton=document.getElementById('save');
 
-saveButton.addEventListener('click',()=>{
-updateSlideImage(drawEngine.SaveSLide())
-
-})
 
 
 

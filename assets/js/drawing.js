@@ -182,6 +182,8 @@ export class DrawEngine {
     };
     this.currentImageData=slideData
 
+   
+    this.updateSlideFunction( this.currentImageData)
   }
 
   ClearCanvas() {
@@ -189,6 +191,7 @@ export class DrawEngine {
     this.points = [];
     this.lastPt = null;
     this.currentImageData=this.canvas.toDataURL()
+    this.updateSlideFunction( this.currentImageData)
   }
 
   SetColor(myColArray) {
