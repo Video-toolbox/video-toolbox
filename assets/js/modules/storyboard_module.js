@@ -2,7 +2,7 @@ import { ReadObject, SaveObject } from "./localstorage_object_module.js";
 import { LoadSlideCallback } from "../site.js";
 
 export let StoryboardElement = null;
- let currentSlide = 0;
+ export let currentSlide = 0;
 
 export let activeStoryboard = {
   slides: [],
@@ -40,10 +40,12 @@ export function CreateStoryboard(name, author, description,imageData) {
 
   CreateSlide(imageData);
 
-  console.log(activeStoryboard);
 }
 
+
 export function CreateSlide(myImagedata) {
+    
+
   activeSlide = {
     info: {
       title: "Slide " + (activeStoryboard.slides.length + 1),
@@ -51,37 +53,51 @@ export function CreateSlide(myImagedata) {
       dialog: "",
       duration: 2,
     },
-    image: myImagedata
+    image:myImagedata
   };
+
+  console.log(activeSlide);
+
   activeStoryboard.slides.push(activeSlide);
   currentSlide = activeStoryboard.slides.length - 1;
-  console.log(currentSlide);
+
+  console.log('createSlide current: '+currentSlide);
 
   SaveStoryboard();
   ShowStoryboard();
 }
 
 export function LoadSlideImage(mySlide){
-    console.log('returning slide: '+mySlide);
+   
     currentSlide= mySlide
 
+    console.log('returning slide: '+currentSlide);
+    ShowStoryboard()
     return activeStoryboard.slides[currentSlide].image
 
 
 }
 
+
+
 export function updateSlideImage(myImage) {
     console.log('updateSlideImage: '+currentSlide);
+    console.log(activeStoryboard);
+
   activeStoryboard.slides[currentSlide].image = myImage;
-  console.table(activeStoryboard.slides);
-  SaveStoryboard();
+  
+  //SaveStoryboard();
   ShowStoryboard();
 }
+
 
 export function updateSlideData(myData) {
   activeStoryboard.slides[currentSlide].info = myData;
   SaveStoryboard();
 }
+
+
+
 
 export function SaveStoryboard() {
   SaveObject(activeStoryboard, "activeStoryboard");
@@ -91,30 +107,38 @@ export function LoadStoryboard() {
   activeStoryboard = ReadObject("activeStoryboard");
 }
 
+
 function ShowStoryboard() {
+
     StoryboardElement.innerHTML = '';
   //StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
 
   activeStoryboard.slides.forEach((slide,index) => {
+
+    console.log('drawing: '+index);
+
     var img = new Image();
     //img.src = dataURL;
+    
     img.src = slide.image;
 
-    img.onload = function () {
 
-      let mySlide = document.createElement("div");
-      mySlide.classList.add("slide");
+    
 
-      mySlide.addEventListener('click',()=>{
-
-
-LoadSlideCallback(index);
-
-      })
-
-      //mySlide.innerHTML = `<h3>${slide.info.title}</h3>`;
-      mySlide.appendChild(img);
-      StoryboardElement.appendChild(mySlide);
-    };
+        let mySlide = document.createElement("div");
+        mySlide.classList.add("slide");
+  
+        mySlide.addEventListener('click',()=>{
+  
+  console.log('assigning index: '+index);
+  LoadSlideCallback(index);
+  
+        })
+  
+        //mySlide.innerHTML = `<h3>${slide.info.title}</h3>`;
+        mySlide.appendChild(img);
+        mySlide.setAttribute("data-index", index);
+        StoryboardElement.appendChild(mySlide);
+  
   });
 }

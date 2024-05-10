@@ -165,7 +165,9 @@ export class DrawEngine {
   LoadSlide(slideData) {
     //var dataURL = localStorage.getItem("testImage");
 
+   
     var img = new Image();
+
     //img.src = dataURL;
     img.src=slideData;
 
@@ -175,6 +177,8 @@ export class DrawEngine {
     img.onload = function () {
       myCtx.drawImage(img, 0, 0);
     };
+    this.currentImageData=slideData
+
   }
 
   ClearCanvas() {

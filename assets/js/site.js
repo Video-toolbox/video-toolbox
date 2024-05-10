@@ -1,5 +1,5 @@
 import { DrawEngine } from "./drawing.js";
-import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage} from "./modules/storyboard_module.js";
+import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage,currentSlide} from "./modules/storyboard_module.js";
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
@@ -18,6 +18,7 @@ let saveButton=document.getElementById('save');
 
 saveButton.addEventListener('click',()=>{
 updateSlideImage(drawEngine.SaveSLide())
+console.log('saveslide button: '+currentSlide);
 })
 
 
@@ -64,7 +65,11 @@ pencilButton.addEventListener('click',()=>{
 export function LoadSlideCallback(myIndex){
 
 console.log('loading callback: '+myIndex);
+
 drawEngine.LoadSlide(LoadSlideImage(myIndex))
+
+//updateSlideImage(drawEngine.SaveSLide())
+
 }
 
 
