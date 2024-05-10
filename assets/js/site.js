@@ -17,7 +17,7 @@ export const drawEngine = new DrawEngine('canvas','toolBar');
 
   
 
-let newSLide=document.getElementById('newSlide');
+/* let newSLide=document.getElementById('newSlide');
 
 newSLide.addEventListener('click',()=>{
    // drawEngine.LoadSlide()
@@ -26,7 +26,7 @@ newSLide.addEventListener('click',()=>{
 
 
 })
-
+ */
 
 
 export function LoadSlideCallback(myIndex){

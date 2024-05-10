@@ -182,9 +182,9 @@ function ShowStoryboard() {
 
   let newslideButton = document.createElement("button");
   newslideButton.innerText='new'
-  newslideButton.addEventListener('mousedown',()=>{
-    drawEngine.ClearCanvas()
+  newslideButton.addEventListener('pointerdown',()=>{
 
+    drawEngine.ClearCanvas()
    CreateSlide(drawEngine.SaveSLide())
 
          })
