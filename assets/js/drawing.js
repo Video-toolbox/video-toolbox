@@ -14,9 +14,13 @@ export class DrawEngine {
     this.myDraw = this.draw.bind(this);
     this.currentTool = "pencil";
     this.selectedColor = [0, 0, 0, 1];
+    this.currentWidth=5;
+    this.widthSlider=null
+    this.pressurSense=true;
     this.currentImageData=null
     this.updateSlideFunction=updateSlideImage
     this.tools=['pencil','pen','marker','eraser']
+    
 
     this.CreateToolMenu();
     this.initialize();
@@ -27,8 +31,8 @@ export class DrawEngine {
     // This could include options for different drawing tools (pencil, eraser, etc.)
     // and color selection
     this.toolbarElement.innerHTML=""
-    this.tools.forEach((element,index) => {
 
+    this.tools.forEach((element,index) => {
 
       let myTool=document.createElement('div');
       myTool.innerText=element;
@@ -39,9 +43,53 @@ export class DrawEngine {
       this.toolbarElement.appendChild(myTool)
     
     });
+
+    // colors
+
+    // settings
+    let mySlider=document.createElement('input');
+    mySlider.type="range"
+    mySlider.id="strokeWidth"
+    mySlider.name="strokeWidth"
+    mySlider.min="1"
+    mySlider.max="80"
+    mySlider.value=this.currentWidth
+
+    mySlider.addEventListener('input',()=>{
+      this.currentWidth=mySlider.value
+    })
+
+    this.widthSlider=mySlider;
+
+    this.toolbarElement.appendChild(mySlider);
+
+    
+
+    for (let index = 0; index < 2; index++) {
+
+      let myTool=document.createElement('div');
+
+      let myColor=`rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},1)`;
+      myTool.style.backgroundColor=myColor;
+      myTool.innerText="Color";
+
+      myTool.addEventListener('click',(e)=>{
+       
+        console.log(e.target.style.backgroundColor);
+        let colorArray = e.target.style.backgroundColor.match(/\d+/g).map(Number);
+        this.SetColor(colorArray)
+      });
+
+      this.toolbarElement.appendChild(myTool);
+    
+    };
+
+
+      
+    }
   
    
-  }
+  
 
   CahngeTool(myToolIndex){
 console.log('change to: '+this.tools[myToolIndex]);
@@ -51,24 +99,33 @@ this.currentTool = this.tools[myToolIndex];
 switch (this.currentTool) {
 
   case 'pencil':
-    this.SetColor([20,20,20,0.5])
+    //this.SetColor([20,20,20,0.5])
+    this.currentWidth=2;
+   
+    this.pressurSense=false;
     break;
 
     case 'pen':
-      this.SetColor([0,0,0,1])
+      //this.SetColor([0,0,0,1])
+      this.currentWidth=5;
+      this.pressurSense=true;
     break;
 
     case 'marker':
-      this.SetColor([100,100,100,1])
+     // this.SetColor([100,100,100,1])
+      this.currentWidth=30;
+      this.pressurSense=false;
     break;
 
     case 'eraser':
-    this.SetColor([255,255,255,1])
+    this.currentWidth=10;
+    this.pressurSense=false;
     break;
 
   default:
     break;
 }
+this.widthSlider.value=this.currentWidth
   }
 
   initialize() {
@@ -123,25 +180,41 @@ switch (this.currentTool) {
       // palm rejection with e.width
 
       if (e.width > 2) {
-        alert("too fat");
+       //alert("too fat");
       }
 
-      let base = 10;
-      let pressure = e.pressure;
+      let penWidth = this.currentWidth;
 
+      if(this.pressurSense){
+
+        let pressure = e.pressure;
+        if (pressure <= 0) {
+          pressure = 0.009;
+        }
+
+         penWidth = this.currentWidth * (pressure * 4);
+
+      }
+      
       
 
-      if (pressure <= 0) {
-        pressure = 0.009;
-      }
+     
 
-      let penWidth = base * (pressure * 4);
+      
 
       var r_a =1;
 
       //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
-      this.ctx.strokeStyle = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
+      if(this.currentTool==='eraser'){
+        this.ctx.strokeStyle = `rgba(255,255,255,1)`;
+        this.ctx.shadowColor = `rgba(255,255,255,${r_a})`;
+       
+      }else{
+        this.ctx.strokeStyle = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
+        this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
+      }
+    
 
       this.ctx.lineWidth = penWidth;
       this.ctx.lineCap = "round";
@@ -159,8 +232,6 @@ switch (this.currentTool) {
       this.ctx.shadowOffsetX = 0;
       this.ctx.shadowOffsetY = 0;
       this.ctx.shadowBlur = 2;
-
-      this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, 1)`;
 
       this.ctx.shadowColor = `rgba(${this.selectedColor[0]}, ${this.selectedColor[1]}, ${this.selectedColor[2]}, ${r_a})`;
 
