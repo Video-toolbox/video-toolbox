@@ -180,15 +180,16 @@ function ShowStoryboard() {
   
   });
 
-/*   let myDelete = document.createElement("img");
-  myDelete.addEventListener('click',()=>{
-   DeleteSlide(index);
-         })
-         myDelete.src=' assets/img/delete-icon.svg'
-         myDelete.classList.add("slide-delete-icon");
-     mySlide.appendChild(myDelete);
+  let newslideButton = document.createElement("button");
+  newslideButton.innerText='new'
+  newslideButton.addEventListener('mousedown',()=>{
+    drawEngine.ClearCanvas()
 
-   StoryboardElement.appendChild(mySlide); */
+   CreateSlide(drawEngine.SaveSLide())
+
+         })
+
+   StoryboardElement.appendChild(newslideButton); 
 
 
 
