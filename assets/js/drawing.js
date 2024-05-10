@@ -139,7 +139,7 @@ switch (this.currentTool) {
     case 'marker':
      // this.SetColor([100,100,100,1])
       this.currentWidth=30;
-      this.pressurSense=true;
+      this.pressurSense=false;
     break;
 
     case 'eraser':
