@@ -17,13 +17,6 @@ export const drawEngine = new DrawEngine('canvas','toolBar');
 
   
 
-
-
-
-
-
-
-
 let newSLide=document.getElementById('newSlide');
 
 newSLide.addEventListener('click',()=>{
@@ -34,31 +27,7 @@ newSLide.addEventListener('click',()=>{
 
 })
 
-/* 
-let clearButton=document.getElementById('clear');
 
-clearButton.addEventListener('click',()=>{
-    drawEngine.ClearCanvas()
-    
-
-})
-
-let eraserButton=document.getElementById('eraser');
-
-eraserButton.addEventListener('click',()=>{
-    drawEngine.SetColor([255,255,255,1])
-    
-
-})
-
-let pencilButton=document.getElementById('pencil');
-
-pencilButton.addEventListener('click',()=>{
-    drawEngine.SetColor([1,1,1,1])
-    
-
-})
- */
 
 export function LoadSlideCallback(myIndex){
 

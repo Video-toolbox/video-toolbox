@@ -47,7 +47,7 @@ export class DrawEngine {
       myTool.style.width="50px";
       myTool.style.backgroundColor="rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
 
-      myTool.addEventListener('click',(e)=>{
+      myTool.addEventListener('mousedown',(e)=>{
         this.CahngeTool(index);
         e.stopPropagation()
       })
@@ -98,7 +98,7 @@ let mySettings=document.createElement('section');
       
 
 
-      myTool.addEventListener('click',(e)=>{
+      myTool.addEventListener('mousedown',(e)=>{
         e.stopPropagation()
         console.log(e.target.style.backgroundColor);
         let colorArray = e.target.style.backgroundColor.match(/\d+/g).map(Number);

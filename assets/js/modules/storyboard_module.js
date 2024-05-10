@@ -179,4 +179,17 @@ function ShowStoryboard() {
         StoryboardElement.appendChild(mySlide);
   
   });
+
+/*   let myDelete = document.createElement("img");
+  myDelete.addEventListener('click',()=>{
+   DeleteSlide(index);
+         })
+         myDelete.src=' assets/img/delete-icon.svg'
+         myDelete.classList.add("slide-delete-icon");
+     mySlide.appendChild(myDelete);
+
+   StoryboardElement.appendChild(mySlide); */
+
+
+
 }
