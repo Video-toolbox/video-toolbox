@@ -60,8 +60,19 @@ body {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: flex-end;
 }
+
+#toolBar section{
+ 
+  display: flex;
+  flex-direction: row;
+ column-gap: 5px;
+  align-items: flex-end;
+}
+
+
 
 #storyboard{
   grid-column-start: 1;
@@ -91,18 +102,18 @@ button {
   column-gap: 5px;
 }
 
-#toolsettings{
+/* #toolsettings{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-}
+} */
 
 
 #timeline {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+ 
   column-gap: 3px;
 }
 

@@ -8,7 +8,7 @@ if ("serviceWorker" in navigator) {
   // add draw engine to html id
 
 
-export const drawEngine = new DrawEngine('canvas','tools');
+export const drawEngine = new DrawEngine('canvas','toolBar');
 
   // start storyboard
   let storyboardElement=document.getElementById('timeline');

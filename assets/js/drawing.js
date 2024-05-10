@@ -32,19 +32,32 @@ export class DrawEngine {
     // and color selection
     this.toolbarElement.innerHTML=""
 
+
+
+    let myToolbar=document.createElement('section');
+
+    this.toolbarElement.appendChild(myToolbar)
+
+
     this.tools.forEach((element,index) => {
 
       let myTool=document.createElement('div');
       myTool.innerText=element;
+      myTool.style.height="50px";
+      myTool.style.width="50px";
+      myTool.style.backgroundColor="rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
 
       myTool.addEventListener('click',()=>{
         this.CahngeTool(index);
       })
-      this.toolbarElement.appendChild(myTool)
+      myToolbar.appendChild(myTool)
     
     });
 
-    // colors
+    
+let mySettings=document.createElement('section');
+
+    this.toolbarElement.appendChild(mySettings)
 
     // settings
     let mySlider=document.createElement('input');
@@ -61,9 +74,15 @@ export class DrawEngine {
 
     this.widthSlider=mySlider;
 
-    this.toolbarElement.appendChild(mySlider);
+    mySettings.appendChild(mySlider);
 
     
+
+    // colors
+
+    let myColorBox=document.createElement('section');
+
+    this.toolbarElement.appendChild(myColorBox)
 
     for (let index = 0; index < 2; index++) {
 
@@ -71,7 +90,11 @@ export class DrawEngine {
 
       let myColor=`rgba(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},1)`;
       myTool.style.backgroundColor=myColor;
-      myTool.innerText="Color";
+      myTool.style.height="50px";
+      myTool.style.width="50px";
+
+      //myTool.innerText="Color";
+
 
       myTool.addEventListener('click',(e)=>{
        
@@ -80,7 +103,7 @@ export class DrawEngine {
         this.SetColor(colorArray)
       });
 
-      this.toolbarElement.appendChild(myTool);
+      myColorBox.appendChild(myTool);
     
     };
 
@@ -197,7 +220,7 @@ this.widthSlider.value=this.currentWidth
         // improve opacity
          r_a =pressure*0.5;
 
-         
+
 
          penWidth = this.currentWidth * (pressure * 3);
 
