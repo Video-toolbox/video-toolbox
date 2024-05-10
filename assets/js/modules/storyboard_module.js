@@ -29,8 +29,12 @@ export function InitStoryboard(myElement,imageData) {
 
   StoryboardElement = myElement;
   LoadStoryboard()
+if(!activeStoryboard){
+CreateStoryboard("test story", "bo", "new storyboard",imageData);
 
- // CreateStoryboard("test story", "bo", "new storyboard",imageData);
+}
+
+ 
 
 }
 
@@ -122,7 +126,11 @@ export function SaveStoryboard() {
 
 export function LoadStoryboard() {
   activeStoryboard = ReadObject("activeStoryboard");
-  ShowStoryboard() 
+  if(activeStoryboard){
+    ShowStoryboard() 
+
+  }
+  
 }
 
 

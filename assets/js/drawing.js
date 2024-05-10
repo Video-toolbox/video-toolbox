@@ -47,8 +47,9 @@ export class DrawEngine {
       myTool.style.width="50px";
       myTool.style.backgroundColor="rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
 
-      myTool.addEventListener('click',()=>{
+      myTool.addEventListener('click',(e)=>{
         this.CahngeTool(index);
+        e.stopPropagation()
       })
       myToolbar.appendChild(myTool)
     
@@ -68,7 +69,8 @@ let mySettings=document.createElement('section');
     mySlider.max="80"
     mySlider.value=this.currentWidth
 
-    mySlider.addEventListener('input',()=>{
+    mySlider.addEventListener('input',(e)=>{
+      e.stopPropagation()
       this.currentWidth=mySlider.value
     })
 
@@ -93,11 +95,11 @@ let mySettings=document.createElement('section');
       myTool.style.height="50px";
       myTool.style.width="50px";
 
-      //myTool.innerText="Color";
+      
 
 
       myTool.addEventListener('click',(e)=>{
-       
+        e.stopPropagation()
         console.log(e.target.style.backgroundColor);
         let colorArray = e.target.style.backgroundColor.match(/\d+/g).map(Number);
         this.SetColor(colorArray)
@@ -218,7 +220,7 @@ this.widthSlider.value=this.currentWidth
         }
 
         // improve opacity
-         r_a =pressure*0.5;
+         //r_a =pressure*0.5;
 
 
 
