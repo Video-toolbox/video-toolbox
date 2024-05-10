@@ -110,13 +110,30 @@ button {
 }
 
 .slide{
+  position: relative;
  height: 100%;
 
 }
 
+.activeSlide{
+  outline: 2px solid rgb(255, 196, 0);
+}
+
 .slide img{
   background-color: white;
+  border: 1px solid purple;
   height: 100%;
   aspect-ratio: 1/1;
  
+ }
+
+ .slide .slide-delete-icon{
+height: 20px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  aspect-ratio: 1/1;
+ 
+  cursor: pointer;
+
  }

@@ -1,4 +1,5 @@
 
+import {InitStoryboard,CreateSlide,updateSlideImage,LoadSlideImage,LoadStoryboard} from "./modules/storyboard_module.js";
 
 export class DrawEngine {
   constructor(myCanvas) {
@@ -12,6 +13,7 @@ export class DrawEngine {
     this.currentTool = "pencil";
     this.selectedColor = [0, 0, 0, 1];
     this.currentImageData=null
+    this.updateSlideFunction=updateSlideImage
 
     this.initialize();
   }
@@ -148,6 +150,7 @@ export class DrawEngine {
     this.isDrawing = false;
     this.points = [];
     this.currentImageData=this.canvas.toDataURL()
+    this.updateSlideFunction( this.currentImageData)
   }
 
   midPointBtw(p1, p2) {
