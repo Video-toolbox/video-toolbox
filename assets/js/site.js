@@ -17,20 +17,19 @@ export const drawEngine = new DrawEngine('canvas','toolBar');
 
   
 
-/* let newSLide=document.getElementById('newSlide');
+let clearCache=document.getElementById('clearCache');
 
-newSLide.addEventListener('click',()=>{
-   // drawEngine.LoadSlide()
-   drawEngine.ClearCanvas()
-   CreateSlide(drawEngine.SaveSLide())
-
+clearCache.addEventListener('click',()=>{
+   
+    localStorage.clear();
+    InitStoryboard(storyboardElement,drawEngine.SaveSLide())
 
 })
- */
+ 
 
 
 export function LoadSlideCallback(myIndex){
-
+console.trace();
 console.log('loading callback: '+myIndex);
 
 drawEngine.LoadSlide(LoadSlideImage(myIndex))

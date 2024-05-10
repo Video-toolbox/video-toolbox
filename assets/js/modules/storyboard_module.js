@@ -160,7 +160,8 @@ function ShowStoryboard() {
            }
 
   
-        mySlide.addEventListener('click',()=>{
+        mySlide.addEventListener('pointerdown',()=>{
+          console.log('load slide image click');
   LoadSlideCallback(index);
         })
   
@@ -184,7 +185,11 @@ function ShowStoryboard() {
   newslideButton.innerText='new'
   newslideButton.addEventListener('pointerdown',()=>{
 
-    drawEngine.ClearCanvas()
+   console.log('new slide button');
+   
+
+   drawEngine.ClearCanvas();
+
    CreateSlide(drawEngine.SaveSLide())
 
          })

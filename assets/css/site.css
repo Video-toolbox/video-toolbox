@@ -18,8 +18,8 @@ body {
   font-style: normal;
 
   display: grid;
-  grid-template-columns:1080px auto;
-  grid-template-rows:auto 720px 120px;
+  grid-template-columns:1280px auto;
+  grid-template-rows:50px 720px auto;
 
   user-select: none;
   -webkit-user-select: none;
@@ -35,7 +35,8 @@ body {
 }
 
 #canvas {
-  width: 1080px;
+  width: 1280px;
+  aspect-ratio: 16/9;
   touch-action: none;
   background-color: white;
 }
@@ -84,7 +85,7 @@ body {
 
   display: flex;
   flex-direction: row;
- 
+
 
 }
 
@@ -111,6 +112,7 @@ button {
 
 
 #timeline {
+  height: 150px;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -136,7 +138,7 @@ button {
   background-color: white;
 
   height: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 16/9;
  
  }
 
