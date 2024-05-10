@@ -114,7 +114,7 @@ switch (this.currentTool) {
     case 'marker':
      // this.SetColor([100,100,100,1])
       this.currentWidth=30;
-      this.pressurSense=false;
+      this.pressurSense=true;
     break;
 
     case 'eraser':
@@ -184,25 +184,33 @@ this.widthSlider.value=this.currentWidth
       }
 
       let penWidth = this.currentWidth;
+      let r_a =1;
 
       if(this.pressurSense){
 
+       
         let pressure = e.pressure;
         if (pressure <= 0) {
           pressure = 0.009;
         }
 
-         penWidth = this.currentWidth * (pressure * 4);
+        // improve opacity
+         r_a =pressure*0.5;
+
+         
+
+         penWidth = this.currentWidth * (pressure * 3);
 
       }
       
       
+      console.log(r_a);
 
      
 
       
 
-      var r_a =1;
+      
 
       //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
