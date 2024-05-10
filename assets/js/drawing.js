@@ -19,7 +19,7 @@ export class DrawEngine {
     this.pressurSense=true;
     this.currentImageData=null
     this.updateSlideFunction=updateSlideImage
-    this.tools=['pencil','pen','marker','eraser']
+    this.tools=['pencil','pen','marker','eraser','clear']
     
 
     this.CreateToolMenu();
@@ -146,6 +146,11 @@ switch (this.currentTool) {
     this.currentWidth=10;
     this.pressurSense=false;
     break;
+
+    case 'clear':
+     this.ClearCanvas()
+    this.updateSlideFunction( this.currentImageData)
+      break;
 
   default:
     break;
@@ -347,7 +352,7 @@ this.widthSlider.value=this.currentWidth
     this.points = [];
     this.lastPt = null;
     this.currentImageData=this.canvas.toDataURL()
-    this.updateSlideFunction( this.currentImageData)
+    //this.updateSlideFunction( this.currentImageData)
   }
 
   SetColor(myColArray) {
