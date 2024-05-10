@@ -18,7 +18,7 @@ body {
   font-style: normal;
 
   display: grid;
-  grid-template-columns:1280px auto;
+  grid-template-columns:1080px auto;
   grid-template-rows:50px 720px auto;
 
   user-select: none;
@@ -137,8 +137,8 @@ button {
 .slide img{
   background-color: white;
 
-  height: 100%;
-  aspect-ratio: 16/9;
+ height: 90%;
+  aspect-ratio: 3/2;
  
  }
 
