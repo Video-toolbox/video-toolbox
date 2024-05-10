@@ -35,8 +35,8 @@ body {
 }
 
 #canvas {
-  width: 1280px;
-  aspect-ratio: 16/9;
+  width: 1080px;
+  height: 720px;
   touch-action: none;
   background-color: white;
 }
