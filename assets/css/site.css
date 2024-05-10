@@ -19,7 +19,7 @@ body {
 
   display: grid;
   grid-template-columns: 1080px auto;
-  grid-template-rows:5vH 720px auto;
+  grid-template-rows:auto 720px 120px;
 
   user-select: none;
   -webkit-user-select: none;
@@ -63,6 +63,19 @@ body {
   justify-content: space-around;
 }
 
+#storyboard{
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  padding: 5px;
+background-color: blueviolet;
+  display: flex;
+  flex-direction: row;
+ 
+
+}
+
 button {
   padding: 10px;
   margin: 2px 5px;
@@ -85,13 +98,24 @@ button {
 
 
 #timeline {
-
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 3;
-  grid-row-end: 4;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .selected {
   background-color: darkgrey;
 }
+
+.slide{
+ height: 100%;
+
+}
+
+.slide img{
+  background-color: white;
+  height: 100%;
+  aspect-ratio: 1/1;
+ 
+ }

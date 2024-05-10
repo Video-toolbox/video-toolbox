@@ -1,18 +1,28 @@
 import { DrawEngine } from "./drawing.js";
+import {InitStoryboard,CreateSlide,updateSlideImage} from "./modules/storyboard_module.js";
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
   }
 
+
+  // start storyboard
+  let storyboardElement=document.getElementById('timeline');
+
+  console.log(storyboardElement);
+
+  InitStoryboard(storyboardElement)
   
 
 // add draw engine to html id
 const drawEngine = new DrawEngine('canvas');
 
+
 let saveButton=document.getElementById('save');
 
 saveButton.addEventListener('click',()=>{
-    drawEngine.SaveSLide()
+  
+updateSlideImage(drawEngine.SaveSLide())
     console.log();
 
 })
@@ -21,7 +31,7 @@ saveButton.addEventListener('click',()=>{
 let loadButton=document.getElementById('load');
 
 loadButton.addEventListener('click',()=>{
-    drawEngine.LoadSlide()
+   // drawEngine.LoadSlide()
     
 
 })

@@ -3,8 +3,12 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 var x = 0;
-/* anim();
-startRecording(); */
+
+
+export default RecordStoryboard(myStoryboardArray){
+/anim();
+startRecording();
+}
 
 function startRecording() {
   const chunks = []; // here we will store our recorded media chunks (Blobs)
@@ -16,6 +20,7 @@ function startRecording() {
   rec.onstop = e => exportVid(new Blob(chunks, { type: 'video/webm' }));
 
   rec.start();
+  // flyt til anim, så loop styrer hvornår der skal stoppes
   setTimeout(() => rec.stop(), 3000); // stop recording in 3s
 }
 
@@ -31,6 +36,7 @@ function exportVid(blob) {
   document.body.appendChild(a);
 }
 
+// loop through myStoryboardArray remeber pause
 function anim() {
   x = (x + 1) % canvas.width;
   ctx.fillStyle = 'white';

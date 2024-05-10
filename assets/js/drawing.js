@@ -1,3 +1,5 @@
+
+
 export class DrawEngine {
   constructor(myCanvas) {
     this.canvas = document.getElementById(myCanvas);
@@ -9,6 +11,7 @@ export class DrawEngine {
     this.myDraw = this.draw.bind(this);
     this.currentTool = "pencil";
     this.selectedColor = [0, 0, 0, 1];
+    this.currentImageData=null
 
     this.initialize();
   }
@@ -42,6 +45,8 @@ export class DrawEngine {
       );
       this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
     }
+
+    this.currentImageData=this.canvas.toDataURL()
   }
 
   draw(e) {
@@ -112,6 +117,7 @@ export class DrawEngine {
 
     //Store latest pointer
     this.lastPt = { x: e.pageX - bounds.left, y: e.pageY - bounds.top };
+  
   }
 
   getOffset(obj) {
@@ -141,6 +147,7 @@ export class DrawEngine {
     this.lastPt = null;
     this.isDrawing = false;
     this.points = [];
+    this.currentImageData=this.canvas.toDataURL()
   }
 
   midPointBtw(p1, p2) {
@@ -151,14 +158,16 @@ export class DrawEngine {
   }
 
   SaveSLide() {
-    localStorage.setItem("testImage", canvas.toDataURL());
+    return this.currentImageData
+    //localStorage.setItem("testImage", canvas.toDataURL());
   }
 
-  LoadSlide() {
+  LoadSlide(slideData) {
     var dataURL = localStorage.getItem("testImage");
 
     var img = new Image();
-    img.src = dataURL;
+    //img.src = dataURL;
+    img.src=slideData;
 
     let myCtx = this.ctx;
     this.ClearCanvas();
