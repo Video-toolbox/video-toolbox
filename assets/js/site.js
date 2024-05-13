@@ -30,7 +30,7 @@ clearCache.addEventListener('click', () => {
 
 
 export function LoadSlideCallback(myIndex) {
-    console.log('loading callback: ' + myIndex);
+
     drawEngine.LoadSlide(LoadSlideImage(myIndex))
 }
 
