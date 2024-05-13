@@ -34,6 +34,18 @@ export class DrawEngine {
     // Create a tool menu for the drawing canvas
     // This could include options for different drawing tools (pencil, eraser, etc.)
     // and color selection
+
+
+    window.addEventListener('keyup', (e) => {
+
+      if (e.ctrlKey == true && e.key == 'z') {
+
+        this.undoDraw()
+
+      }
+    });
+
+
     this.toolbarElement.innerHTML = "";
 
     let myToolbar = document.createElement("section");
@@ -210,7 +222,7 @@ export class DrawEngine {
     //console.log(e);
     /*
     https://stackoverflow.com/questions/57711515/javascript-eventlistener-pointermove-points-per-second
-
+  
     https://developer.mozilla.org/en-US/docs/Web/API/Element/hasPointerCapture
     */
 
@@ -303,6 +315,11 @@ export class DrawEngine {
   endPointer(e) {
     //Stop tracking the pointermove (and mousemove) events
 
+    if (e.touches.length > 1) {
+
+      this.undoDraw()
+    }
+
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
     this.canvas.removeEventListener("mousemove", this.myDraw, false);
 
@@ -357,7 +374,16 @@ export class DrawEngine {
   SetColor(myColArray) {
     this.selectedColor = myColArray;
   }
+
+  undoDraw() {
+    alert('undo')
+  }
+
+
 }
+
+
+
 
 /* 
 

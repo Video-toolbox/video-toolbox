@@ -63,14 +63,21 @@ body {
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  align-items: center;
   padding-left: 1em;
   padding-right: 1em;
+}
+
+#toolBar div {
+  border-radius: 0.5em;
+  padding: 5px;
 }
 
 #toolBar section {
   display: flex;
   flex-direction: row;
   column-gap: 5px;
+
   align-items: flex-end;
 }
 
@@ -80,7 +87,6 @@ body {
   grid-row-start: 3;
   grid-row-end: 4;
   padding: 5px;
-
   display: flex;
   flex-direction: row;
 }
