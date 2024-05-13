@@ -6,7 +6,9 @@
   padding: 0;
 }
 
-body {
+
+
+.drawPageContainer {
   width: 100vw;
   height: 100vh;
   font-family: Arial, sans-serif;
@@ -209,4 +211,8 @@ button {
   overflow-y: auto;
   padding: 4px;
   margin-bottom: 1em;
+}
+
+.hidden{
+  display: none;
 }
