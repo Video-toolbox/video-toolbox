@@ -41,7 +41,7 @@ export class DrawEngine {
       if(e.metaKey){
         alert('meta key pressed')
       }
-      
+
       if (e.ctrlKey == true  && e.key == 'z') {
 
         this.undoDraw()
@@ -333,7 +333,7 @@ export class DrawEngine {
   endTouch(e){
 
     e.preventDefault();
-    alert(e.touches)
+   
     if (e.touches.length > 1) {
 
       this.undoDraw()
