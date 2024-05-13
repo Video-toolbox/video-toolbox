@@ -38,7 +38,7 @@ export class DrawEngine {
 
     window.addEventListener('keyup', (e) => {
 
-      if (e.ctrlKey == true && e.key == 'z') {
+      if (e.ctrlKey == true ||e.metaKey && e.key == 'z') {
 
         this.undoDraw()
 
@@ -196,11 +196,25 @@ export class DrawEngine {
         false
       );
 
+
+
+     /*  this.canvas.addEventListener(
+        "touchstart",
+        this.startPointer.bind(this),
+        false
+      ); */
+
       this.canvas.addEventListener(
+        "touchend",
+        this.endTouch.bind(this),
+        false
+      );
+
+    /*   this.canvas.addEventListener(
         "pointerleave",
         this.endPointer.bind(this),
         false
-      );
+      ); */
 
     } else {
       this.points = [];
@@ -312,13 +326,26 @@ export class DrawEngine {
     //console.log('start pointer');
   }
 
-  endPointer(e) {
-    //Stop tracking the pointermove (and mousemove) events
+  endTouch(){
 
     if (e.touches.length > 1) {
 
       this.undoDraw()
     }
+
+  }
+
+  endPointer(e) {
+    //Stop tracking the pointermove (and mousemove) events
+
+  /*   if (e.touches.length > 1) {
+
+      this.undoDraw()
+    }
+ */
+
+   
+
 
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
     this.canvas.removeEventListener("mousemove", this.myDraw, false);
