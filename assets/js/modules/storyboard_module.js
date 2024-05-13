@@ -19,16 +19,34 @@ export let activeSlide = {
     title: "Slide 1",
     description: "This is the first slide",
     dialog: "This is some sample dialog for the first slide",
-    duration: 2,
+    duration: 2000,
   },
   image: null,
 };
 
+let firstRun = true
+
+
 export function InitStoryboard(myElement, imageData) {
 
   StoryboardElement = document.getElementById('timeline');
-
   slideInfoElement = document.getElementById('slideInfo');
+
+  if (firstRun) {
+    firstRun = false
+    let newslideButton = document.getElementById('newSlideButton');
+
+
+    newslideButton.addEventListener('click', () => {
+
+
+      drawEngine.ClearCanvas();
+      CreateSlide(drawEngine.SaveSLide())
+    })
+  }
+
+
+
   LoadStoryboard()
 
   if (!activeStoryboard) {
@@ -62,7 +80,7 @@ export function CreateSlide(myImagedata) {
       title: "Slide " + (activeStoryboard.slides.length + 1),
       description: "This is a frame",
       dialog: "lots of talk",
-      duration: 2,
+      duration: 2000,
     },
     image: myImagedata
   };
@@ -79,6 +97,7 @@ export function CreateSlide(myImagedata) {
 }
 
 export function LoadSlideImage(mySlide) {
+
 
   currentSlide = mySlide
 
@@ -97,6 +116,8 @@ export function updateSlideImage(myImage) {
 
   SaveStoryboard();
   ShowStoryboard();
+
+
 }
 
 
@@ -106,13 +127,23 @@ export function updateSlideData(myData) {
 }
 
 export function DeleteSlide(myIndex) {
-  activeStoryboard.slides.splice(myIndex, 1);
-  if (currentSlide >= myIndex) {
-    currentSlide--;
+
+  if (activeStoryboard.slides.length > 1) {
+    activeStoryboard.slides.splice(myIndex, 1);
+
+    //if (currentSlide >= myIndex) {
+
+    if (currentSlide > 0) {
+      currentSlide--;
+    }
+
+    console.log('DeleteSlide ' + currentSlide);
+
+    LoadSlideCallback(currentSlide)
+    SaveStoryboard();
+    ShowStoryboard();
   }
-  LoadSlideCallback(myIndex)
-  SaveStoryboard();
-  ShowStoryboard();
+
 }
 
 
@@ -127,7 +158,6 @@ export function LoadStoryboard() {
   activeStoryboard = ReadObject("activeStoryboard");
   if (activeStoryboard) {
     ShowStoryboard()
-
   }
 
 }
@@ -137,6 +167,7 @@ function ShowStoryboard() {
 
   StoryboardElement.innerHTML = '';
   //StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
+
 
   activeStoryboard.slides.forEach((slide, index) => {
     var img = new Image();
@@ -158,7 +189,9 @@ function ShowStoryboard() {
 
     // mySlide.setAttribute("data-index", index);
     let myDelete = document.createElement("img");
-    myDelete.addEventListener('pointerdown', () => {
+
+    myDelete.addEventListener('pointerdown', (e) => {
+      e.stopPropagation()
       DeleteSlide(index);
     })
     myDelete.src = ' assets/img/delete-icon.svg'
@@ -168,27 +201,15 @@ function ShowStoryboard() {
     StoryboardElement.appendChild(mySlide);
 
   });
-
-  let newslideButton = document.createElement("button");
-  newslideButton.innerText = '+'
-  newslideButton.addEventListener('pointerdown', () => {
-
-
-
-
-    drawEngine.ClearCanvas();
-
-    CreateSlide(drawEngine.SaveSLide())
-
-  })
-
-  StoryboardElement.appendChild(newslideButton);
-
   showBoardInfo()
 
 }
 
 function showBoardInfo() {
+
+
+  console.log(activeStoryboard);
+  console.log('show board: ' + currentSlide);
   let myInfo = activeStoryboard.slides[currentSlide].info;
 
   slideInfoElement.innerHTML = ""
@@ -265,6 +286,5 @@ function infoCallBack(e) {
   let myInfo = activeStoryboard.slides[currentSlide].info;
   let myField = e.target.dataset.fieldname;
   myInfo[myField] = e.target.value
-
 
 }

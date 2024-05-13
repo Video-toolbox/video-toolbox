@@ -7,7 +7,7 @@ import {
 } from "./modules/storyboard_module.js";
 
 export class DrawEngine {
-  constructor(myCanvas, myToolBar) {
+  constructor (myCanvas, myToolBar) {
     this.canvas = document.getElementById(myCanvas);
     this.toolbarElement = document.getElementById(myToolBar);
     this.ass = myCanvas;
@@ -45,7 +45,7 @@ export class DrawEngine {
       myTool.innerText = element;
       myTool.style.height = "50px";
       myTool.style.width = "50px";
-      myTool.style.backgroundColor="rgb(100,100,100)";
+      myTool.style.backgroundColor = "rgb(100,100,100)";
 
       myTool.addEventListener("pointerdown", (e) => {
         this.CahngeTool(index);
@@ -82,7 +82,7 @@ export class DrawEngine {
 
     this.toolbarElement.appendChild(myColorBox);
 
- 
+
 
     let colorSelector = document.createElement("input");
     colorSelector.type = "color";
@@ -93,13 +93,13 @@ export class DrawEngine {
       let color = e.target.value;
 
       let rgb = this.hexToRgb(color);
-      console.log(color, rgb);
+      //  console.log(color, rgb);
 
       let arr = rgb
         .substring(4, rgb.length - 1)
         .replace(/ /g, "")
         .split(",");
-      console.log(arr);
+
 
       arr.push('1')
       this.selectedColor = arr.map((element) => {
@@ -126,7 +126,7 @@ export class DrawEngine {
   }
 
   CahngeTool(myToolIndex) {
-    console.log("change to: " + this.tools[myToolIndex]);
+    //console.log("change to: " + this.tools[myToolIndex]);
     this.currentTool = this.tools[myToolIndex];
 
     //['pencil','pen','marker','eraser']
@@ -183,6 +183,13 @@ export class DrawEngine {
         this.endPointer.bind(this),
         false
       );
+
+      this.canvas.addEventListener(
+        "pointerleave",
+        this.endPointer.bind(this),
+        false
+      );
+
     } else {
       this.points = [];
       //Provide fallback for user agents that do not support Pointer Events
@@ -236,7 +243,7 @@ export class DrawEngine {
         penWidth = this.currentWidth * (pressure * 3);
       }
 
-      console.log(r_a);
+
 
       //this.ctx.strokeStyle = `rgba(10, 10, 10, ${r_a})`;
 
