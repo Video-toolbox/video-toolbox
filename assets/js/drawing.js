@@ -38,7 +38,10 @@ export class DrawEngine {
 
     window.addEventListener('keyup', (e) => {
 
-      if (e.ctrlKey == true ||e.metaKey && e.key == 'z') {
+      if(e.metaKey){
+        alert('meta key pressed')
+      }
+      if (e.ctrlKey == true  && e.key == 'z') {
 
         this.undoDraw()
 
@@ -326,8 +329,9 @@ export class DrawEngine {
     //console.log('start pointer');
   }
 
-  endTouch(){
+  endTouch(e){
 
+    e.preventDefault();
     if (e.touches.length > 1) {
 
       this.undoDraw()
