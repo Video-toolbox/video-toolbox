@@ -1,8 +1,9 @@
 import { ReadObject, SaveObject } from "./localstorage_object_module.js";
-import { LoadSlideCallback,drawEngine } from "../site.js";
+import { LoadSlideCallback, drawEngine } from "../site.js";
 
 export let StoryboardElement = null;
- export let currentSlide = 0;
+export let currentSlide = 0;
+let slideInfoElement = null;
 
 export let activeStoryboard = {
   slides: [],
@@ -23,23 +24,20 @@ export let activeSlide = {
   image: null,
 };
 
-export function InitStoryboard(myElement,imageData) {
+export function InitStoryboard(myElement, imageData) {
 
+  StoryboardElement = document.getElementById('timeline');
 
-
-  StoryboardElement = myElement;
+  slideInfoElement = document.getElementById('slideInfo');
   LoadStoryboard()
-if(!activeStoryboard){
-CreateStoryboard("test story", "bo", "new storyboard",imageData);
 
-}
-
- 
-
+  if (!activeStoryboard) {
+    CreateStoryboard("test story", "bo", "new storyboard", imageData);
+  }
 }
 
 
-export function CreateStoryboard(name, author, description,imageData) {
+export function CreateStoryboard(name, author, description, imageData) {
   activeStoryboard = {
     slides: [],
     info: {
@@ -55,16 +53,18 @@ export function CreateStoryboard(name, author, description,imageData) {
 
 
 export function CreateSlide(myImagedata) {
-    
+
+
+
 
   activeSlide = {
     info: {
       title: "Slide " + (activeStoryboard.slides.length + 1),
-      description: "",
-      dialog: "",
+      description: "This is a frame",
+      dialog: "lots of talk",
       duration: 2,
     },
-    image:myImagedata
+    image: myImagedata
   };
 
 
@@ -72,19 +72,18 @@ export function CreateSlide(myImagedata) {
   activeStoryboard.slides.push(activeSlide);
   currentSlide = activeStoryboard.slides.length - 1;
 
-  console.log('createSlide current: '+currentSlide);
+  console.log('createSlide current: ' + currentSlide);
 
   SaveStoryboard();
   ShowStoryboard();
 }
 
-export function LoadSlideImage(mySlide){
-   
-    currentSlide= mySlide
+export function LoadSlideImage(mySlide) {
 
-    
-    ShowStoryboard()
-    return activeStoryboard.slides[currentSlide].image
+  currentSlide = mySlide
+
+  ShowStoryboard()
+  return activeStoryboard.slides[currentSlide].image
 
 
 }
@@ -92,10 +91,10 @@ export function LoadSlideImage(mySlide){
 
 
 export function updateSlideImage(myImage) {
-   
+
 
   activeStoryboard.slides[currentSlide].image = myImage;
-  
+
   SaveStoryboard();
   ShowStoryboard();
 }
@@ -106,9 +105,9 @@ export function updateSlideData(myData) {
   SaveStoryboard();
 }
 
-export function DeleteSlide(myIndex){
-   activeStoryboard.slides.splice(myIndex, 1);
-  if(currentSlide >= myIndex){
+export function DeleteSlide(myIndex) {
+  activeStoryboard.slides.splice(myIndex, 1);
+  if (currentSlide >= myIndex) {
     currentSlide--;
   }
   LoadSlideCallback(myIndex)
@@ -126,76 +125,146 @@ export function SaveStoryboard() {
 
 export function LoadStoryboard() {
   activeStoryboard = ReadObject("activeStoryboard");
-  if(activeStoryboard){
-    ShowStoryboard() 
+  if (activeStoryboard) {
+    ShowStoryboard()
 
   }
-  
+
 }
 
 
 function ShowStoryboard() {
 
-    StoryboardElement.innerHTML = '';
+  StoryboardElement.innerHTML = '';
   //StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
 
-  activeStoryboard.slides.forEach((slide,index) => {
-
-   
-
+  activeStoryboard.slides.forEach((slide, index) => {
     var img = new Image();
-    //img.src = dataURL;
-    
+
     img.src = slide.image;
+    let mySlide = document.createElement("div");
 
+    mySlide.classList.add("slide");
+    if (index === currentSlide) {
+      mySlide.classList.add("activeSlide");
+    }
 
-    
+    mySlide.addEventListener('pointerdown', () => {
+      console.log('load slide image click');
+      LoadSlideCallback(index);
+    })
 
-        let mySlide = document.createElement("div");
+    mySlide.appendChild(img);
 
-        mySlide.classList.add("slide");
-        if(index=== currentSlide){
-            
-            mySlide.classList.add("activeSlide");
-           }
+    // mySlide.setAttribute("data-index", index);
+    let myDelete = document.createElement("img");
+    myDelete.addEventListener('pointerdown', () => {
+      DeleteSlide(index);
+    })
+    myDelete.src = ' assets/img/delete-icon.svg'
+    myDelete.classList.add("slide-delete-icon");
+    mySlide.appendChild(myDelete);
 
-  
-        mySlide.addEventListener('pointerdown',()=>{
-          console.log('load slide image click');
-  LoadSlideCallback(index);
-        })
-  
-       
-        mySlide.appendChild(img);
+    StoryboardElement.appendChild(mySlide);
 
-       // mySlide.setAttribute("data-index", index);
-       let myDelete = document.createElement("img");
-       myDelete.addEventListener('click',()=>{
-        DeleteSlide(index);
-              })
-              myDelete.src=' assets/img/delete-icon.svg'
-              myDelete.classList.add("slide-delete-icon");
-          mySlide.appendChild(myDelete);
-
-        StoryboardElement.appendChild(mySlide);
-  
   });
 
   let newslideButton = document.createElement("button");
-  newslideButton.innerText='new'
-  newslideButton.addEventListener('pointerdown',()=>{
+  newslideButton.innerText = '+'
+  newslideButton.addEventListener('pointerdown', () => {
 
-   console.log('new slide button');
-   
 
-   drawEngine.ClearCanvas();
 
-   CreateSlide(drawEngine.SaveSLide())
 
-         })
+    drawEngine.ClearCanvas();
 
-   StoryboardElement.appendChild(newslideButton); 
+    CreateSlide(drawEngine.SaveSLide())
 
+  })
+
+  StoryboardElement.appendChild(newslideButton);
+
+  showBoardInfo()
+
+}
+
+function showBoardInfo() {
+  let myInfo = activeStoryboard.slides[currentSlide].info;
+
+  slideInfoElement.innerHTML = ""
+
+
+  let myLabel = document.createElement('label')
+  myLabel.innerText = 'Title'
+
+  slideInfoElement.appendChild(myLabel)
+
+  let myTitle = document.createElement('input')
+  myTitle.value = myInfo.title
+  myTitle.addEventListener('change', infoCallBack)
+
+  myTitle.setAttribute("data-fieldName", 'title');
+
+
+  slideInfoElement.appendChild(myTitle)
+
+
+
+  myLabel = document.createElement('label')
+  myLabel.innerText = 'Desctiption'
+
+  slideInfoElement.appendChild(myLabel)
+
+  let myDescription = document.createElement('textarea')
+  myDescription.value = myInfo.description
+  myDescription.classList.add('inputField')
+
+  myDescription.addEventListener('change', infoCallBack)
+
+  myDescription.setAttribute("data-fieldName", 'description');
+
+  slideInfoElement.appendChild(myDescription)
+
+
+
+  myLabel = document.createElement('label')
+  myLabel.innerText = 'Dialog'
+
+  slideInfoElement.appendChild(myLabel)
+
+  let myDialog = document.createElement('textarea')
+  myDialog.value = myInfo.dialog
+  myDialog.addEventListener('change', infoCallBack)
+
+  myDialog.setAttribute("data-fieldName", 'dialog');
+
+  myDialog.classList.add('inputField')
+
+  slideInfoElement.appendChild(myDialog)
+
+
+
+  myLabel = document.createElement('label')
+  myLabel.innerText = 'Duration in ms'
+
+  slideInfoElement.appendChild(myLabel)
+
+  let myDuration = document.createElement('input')
+  myDuration.value = myInfo.duration
+
+  myDuration.addEventListener('change', infoCallBack)
+
+  myDuration.setAttribute("data-fieldName", 'duration');
+
+  slideInfoElement.appendChild(myDuration)
+
+}
+
+function infoCallBack(e) {
+
+  let myInfo = activeStoryboard.slides[currentSlide].info;
+  let myField = e.target.dataset.fieldname;
+  myInfo[myField] = e.target.value
 
 
 }
