@@ -8,12 +8,22 @@ let boardInfoElement = null;
 
 export let activeStoryboard = {
   slides: [],
+  scenes: [],
   info: {
     name: "test",
     author: "John Doe",
-    description: "This is a test storyboard",
-  },
+    description: "This is a test storyboard"
+  }
 };
+
+export let activeScene = {
+  info: {
+    title: "Scene 1",
+    description: "This is the first scene",
+    slides: []
+  }
+};
+
 
 export let activeSlide = {
   info: {
@@ -21,8 +31,10 @@ export let activeSlide = {
     description: "This is the first slide",
     dialog: "This is some sample dialog for the first slide",
     duration: 2000,
+    scene: 0,
   },
   image: null,
+
 };
 
 
@@ -71,6 +83,7 @@ export function InitStoryboard(myElement, imageData) {
 export function CreateStoryboard(name, author, description, imageData) {
   activeStoryboard = {
     slides: [],
+    scenes: [activeScene],
     info: {
       name: name,
       author: author,
@@ -94,6 +107,7 @@ export function CreateSlide(myImagedata) {
       description: "This is a frame",
       dialog: "lots of talk",
       duration: 2000,
+      scene: 0,
     },
     image: myImagedata
   };
@@ -284,11 +298,36 @@ function showFrameInfo() {
   let myDuration = document.createElement('input')
   myDuration.value = myInfo.duration
 
+
   myDuration.addEventListener('change', infoCallBack)
 
   myDuration.setAttribute("data-fieldName", 'duration');
 
   slideInfoElement.appendChild(myDuration)
+
+
+
+
+  /////////// scene info
+  myLabel = document.createElement('label')
+  myLabel.innerText = 'Scene'
+
+  slideInfoElement.appendChild(myLabel)
+
+
+  let myScene = document.createElement('input')
+
+
+
+
+
+  myScene.value = activeStoryboard.scenes[myInfo.scene].info.title
+
+  myScene.addEventListener('change', infoCallBack)
+
+  myScene.setAttribute("data-fieldName", 'scene');
+
+  slideInfoElement.appendChild(myScene)
 
 }
 
