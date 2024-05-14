@@ -318,9 +318,6 @@ function showFrameInfo() {
   let myScene = document.createElement('input')
 
 
-
-
-
   myScene.value = activeStoryboard.scenes[myInfo.scene].info.title
 
   myScene.addEventListener('change', infoCallBack)
