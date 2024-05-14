@@ -6,8 +6,6 @@
   padding: 0;
 }
 
-
-
 .drawPageContainer {
   width: 100vw;
   height: 100vh;
@@ -213,6 +211,12 @@ button {
   margin-bottom: 1em;
 }
 
-.hidden{
+.appNavigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.hidden {
   display: none;
 }

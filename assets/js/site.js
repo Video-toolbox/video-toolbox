@@ -1,33 +1,33 @@
 import { DrawEngine } from "./drawing.js";
 import { InitStoryboard, CreateSlide, updateSlideImage, LoadSlideImage, LoadStoryboard } from "./modules/storyboard_module.js";
+import InitNavigation from './modules/navigation_module.js'
+
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
 }
 
 
-let activePage=document.getElementById('drawPage');
 
-
-// add draw engine to html id
-
-
+// init drawEngine
 export const drawEngine = new DrawEngine('canvas', 'toolBar');
 
+
+
+
+
 // start storyboard
-let storyboardElement = document.getElementById('timeline');
-
-InitStoryboard(storyboardElement, drawEngine.SaveSLide())
+createPage('drawPage')
 
 
 
 
-let clearCache = document.getElementById('clearCache');
+/* let clearCache = document.getElementById('clearCache');
 
 clearCache.addEventListener('click', () => {
     localStorage.clear();
     InitStoryboard(storyboardElement, drawEngine.SaveSLide())
-})
+}) */
 
 
 
@@ -37,68 +37,63 @@ export function LoadSlideCallback(myIndex) {
     drawEngine.LoadSlide(LoadSlideImage(myIndex))
 }
 
-// menu bar  create dynamic menu later
 
+
+
+// menu bar  create dynamic menu later
+/* 
 let myShotListbutton = document.getElementById('shotList');
 myShotListbutton.setAttribute("data-page", 'shotlist');
 
-myShotListbutton.addEventListener('click',menuCallback)
+myShotListbutton.addEventListener('click', navCallback)
 
 let myLoggingButton = document.getElementById('logging');
 myLoggingButton.setAttribute("data-page", 'logging');
 
-myLoggingButton.addEventListener('click',menuCallback)
+myLoggingButton.addEventListener('click', navCallback)
 
 
 let myDrawButton = document.getElementById('drawButton');
-myDrawButton.setAttribute("data-page",'draw');
+myDrawButton.setAttribute("data-page", 'draw');
 
-myDrawButton.addEventListener('click',menuCallback)
+myDrawButton.addEventListener('click', navCallback)
 
-
-function menuCallback(e){
-
-    activePage.classList.toggle('hidden');
+ */
+export function createPage(myPage) {
 
 
-    let myDrawPage=document.getElementById('drawPage');
-    let myShotlistPage=document.getElementById('shotListPage');
-    let myLoggingPage=document.getElementById('loggingPage');
+    console.log('createPage: ' + myPage);
 
 
-let myPage=e.target.dataset.page;
+    switch (myPage) {
 
-console.log(myPage);
-
-
-switch(myPage){
-
-    case 'shotlist':
-    //load shotlist page
-    myShotlistPage.classList.toggle('hidden');
-    activePage=myShotlistPage
-   
-
-    break;
-
-    case 'logging':
-        //load shotlist page
-  
-    myLoggingPage.classList.toggle('hidden');
-    activePage=myLoggingPage
-        break;
-
-        case 'draw':
+        case 'shotlistPage':
             //load shotlist page
-            myDrawPage.classList.toggle('hidden');
-            activePage=myDrawPage
+
+
+            InitNavigation(document.getElementById('shotlistPageNav'))
+
+
 
             break;
 
-  default:
-    //do nothing
-    break;
-}
+        case 'logginPage':
+            //load shotlist page
+            InitNavigation(document.getElementById('loggingPageNav'))
+
+            break;
+
+        case 'drawPage':
+            InitNavigation(document.getElementById('drawNav'))
+            let storyboardElement = document.getElementById('timeline');
+            InitStoryboard(storyboardElement, drawEngine.SaveSLide())
+
+            break;
+
+        default:
+            //do nothing
+            break;
+    }
 
 }
 
