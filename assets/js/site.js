@@ -7,7 +7,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
 }
 
-
+let storyboardElement = document.getElementById('timeline');
 
 // init drawEngine
 export const drawEngine = new DrawEngine('canvas', 'toolBar');
@@ -20,17 +20,12 @@ export const drawEngine = new DrawEngine('canvas', 'toolBar');
 createPage('drawPage')
 
 
-
-
-/* let clearCache = document.getElementById('clearCache');
+let clearCache = document.getElementById('clearCache');
 
 clearCache.addEventListener('click', () => {
     localStorage.clear();
     InitStoryboard(storyboardElement, drawEngine.SaveSLide())
-}) */
-
-
-
+})
 
 export function LoadSlideCallback(myIndex) {
 
@@ -39,26 +34,6 @@ export function LoadSlideCallback(myIndex) {
 
 
 
-
-// menu bar  create dynamic menu later
-/* 
-let myShotListbutton = document.getElementById('shotList');
-myShotListbutton.setAttribute("data-page", 'shotlist');
-
-myShotListbutton.addEventListener('click', navCallback)
-
-let myLoggingButton = document.getElementById('logging');
-myLoggingButton.setAttribute("data-page", 'logging');
-
-myLoggingButton.addEventListener('click', navCallback)
-
-
-let myDrawButton = document.getElementById('drawButton');
-myDrawButton.setAttribute("data-page", 'draw');
-
-myDrawButton.addEventListener('click', navCallback)
-
- */
 export function createPage(myPage) {
 
 
@@ -85,7 +60,6 @@ export function createPage(myPage) {
 
         case 'drawPage':
             InitNavigation(document.getElementById('drawNav'))
-            let storyboardElement = document.getElementById('timeline');
             InitStoryboard(storyboardElement, drawEngine.SaveSLide())
 
             break;

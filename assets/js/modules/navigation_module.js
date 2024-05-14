@@ -1,7 +1,7 @@
 
 import { createPage } from '../site.js'
 
-let navigationItems = ['drawPage', 'shotlistPage', 'logginPage']
+let navigationItems = ['drawPage', 'shotlistPage', 'logginPage']// print page
 
 let currentPage = document.getElementById(navigationItems[0]);
 
