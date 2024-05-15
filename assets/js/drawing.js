@@ -241,6 +241,9 @@ export class DrawEngine {
     }
 
     this.currentImageData = this.canvas.toDataURL();
+
+this.undoCache.push(this.currentImageData)
+
   }
 
   draw(e) {
@@ -252,7 +255,7 @@ export class DrawEngine {
     */
 
     if (!this.isDrawing) {
-      console.log("nope");
+    
       return;
     }
 
@@ -368,17 +371,8 @@ export class DrawEngine {
   }
 
   endPointer(e) {
-    //Stop tracking the pointermove (and mousemove) events
-
-  /*   if (e.touches.length > 1) {
-
-      this.undoDraw()
-    }
- */
-
-   
-
-
+let myPointer=e.pointerType
+if(myPointer=='pen'){
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
     this.canvas.removeEventListener("mousemove", this.myDraw, false);
 
@@ -389,7 +383,9 @@ export class DrawEngine {
     this.points = [];
     this.currentImageData = this.canvas.toDataURL();
     this.undoCache.push(this.currentImageData)
+    console.log(this.undoCache.length);
     this.updateSlideFunction(this.currentImageData);
+}    
   }
 
   midPointBtw(p1, p2) {
@@ -411,6 +407,7 @@ export class DrawEngine {
 
     //img.src = dataURL;
     img.src = slideData;
+    //console.log(slideData);
 
     let myCtx = this.ctx;
     this.ClearCanvas();
@@ -436,10 +433,35 @@ export class DrawEngine {
   }
 
   undoDraw() {
-    //alert('undo')
-    this.currentImageData=this.undoCache[this.undoCache.length-2]
-    this.undoCache.pop()
+
+    //img.src = dataURL;
+    if(this.undoCache.length>0){
+
+      console.log('undoing');
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      this.undoCache.pop()
+
+      let img = new Image();
+    img.src = this.undoCache[this.undoCache.length-1];
+
+    //img.src = slideData; 
+    //console.log(slideData);
+    let myCtx = this.ctx; 
+
+
+    img.onload = function () {
+      myCtx.drawImage(img, 0, 0);
+    }
+
+    this.currentImageData = img.src;
+    this.updateSlideFunction(this.currentImageData);
+
+    console.log('undo cache: '+this.undoCache.length);
     
+  }else{
+    alert('no undo')
+  }
   }
 
 
