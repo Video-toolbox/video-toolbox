@@ -22,6 +22,7 @@ export class DrawEngine {
     this.widthSlider = null;
     this.pressurSense = true;
     this.currentImageData = null;
+    this.undoCache=[]
     this.updateSlideFunction = updateSlideImage;
     this.tools = ["pencil", "pen", "marker", "eraser", "clear"];
     this.colorSelectorContainer = null;
@@ -214,6 +215,12 @@ export class DrawEngine {
         false
       );
 
+      this.canvas.addEventListener(
+        "touchstart",
+        this.startTouch.bind(this),
+        false
+      );
+
     /*   this.canvas.addEventListener(
         "pointerleave",
         this.endPointer.bind(this),
@@ -324,18 +331,37 @@ export class DrawEngine {
   }
 
   startPointer(e) {
-    this.isDrawing = true;
+    
+ this.isDrawing = true;
     this.canvas.addEventListener("pointermove", this.myDraw, false);
     this.canvas.addEventListener("mousemove", this.myDraw, false);
-    //console.log('start pointer');
+    //console.log('start pointer');      
+    
+   
   }
 
   endTouch(e){
 
     e.preventDefault();
+ this.isDrawing = false;    
    
-    if (e.touches.length > 1) {
+    if (e.touches.length ==2) {
 
+      this.undoDraw()
+    }
+
+  }
+
+  startTouch(e){
+
+    e.preventDefault();
+    
+   if(e.touches.length>=2){
+    this.isDrawing = false;
+   }
+
+    if (e.touches.length ==2) {
+     
       this.undoDraw()
     }
 
@@ -362,6 +388,7 @@ export class DrawEngine {
     this.isDrawing = false;
     this.points = [];
     this.currentImageData = this.canvas.toDataURL();
+    this.undoCache.push(this.currentImageData)
     this.updateSlideFunction(this.currentImageData);
   }
 
@@ -409,7 +436,10 @@ export class DrawEngine {
   }
 
   undoDraw() {
-    alert('undo')
+    //alert('undo')
+    this.currentImageData=this.undoCache[this.undoCache.length-2]
+    this.undoCache.pop()
+    
   }
 
 

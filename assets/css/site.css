@@ -161,7 +161,7 @@ button {
 
 #colorSelector {
   height: 50px;
-
+width: 50px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
