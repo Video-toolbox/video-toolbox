@@ -416,7 +416,8 @@ if(myPointer=='pen'){
       myCtx.drawImage(img, 0, 0);
     };
     this.currentImageData = slideData;
-
+this.undoCache=[]
+this.undoCache.push(this.currentImageData)
     this.updateSlideFunction(this.currentImageData);
   }
 
