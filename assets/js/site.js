@@ -7,6 +7,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
 }
 
+
 let storyboardElement = document.getElementById('timeline');
 
 // init drawEngine

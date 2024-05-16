@@ -55,45 +55,6 @@ export class DrawEngine {
 
     let myToolbar = document.createElement("section");
 
-    this.toolbarElement.appendChild(myToolbar);
-
-    this.tools.forEach((element, index) => {
-      let myTool = document.createElement("div");
-      myTool.innerText = element;
-      myTool.style.height = "50px";
-      myTool.style.width = "50px";
-      myTool.style.backgroundColor = "rgb(100,100,100)";
-
-      myTool.addEventListener("pointerdown", (e) => {
-        this.CahngeTool(index);
-        e.stopPropagation();
-      });
-      myToolbar.appendChild(myTool);
-    });
-
-    let mySettings = document.createElement("section");
-
-    this.toolbarElement.appendChild(mySettings);
-
-    // settings
-    let mySlider = document.createElement("input");
-    mySlider.type = "range";
-    mySlider.id = "strokeWidth";
-    mySlider.name = "strokeWidth";
-    mySlider.min = "1";
-    mySlider.max = "80";
-    mySlider.value = this.currentWidth;
-
-    mySlider.addEventListener("input", (e) => {
-      e.stopPropagation();
-      this.currentWidth = mySlider.value;
-    });
-
-    this.widthSlider = mySlider;
-
-    mySettings.appendChild(mySlider);
-
-    // colors
 
     let myColorBox = document.createElement("section");
 
@@ -125,6 +86,52 @@ export class DrawEngine {
     });
 
     myColorBox.appendChild(colorSelector);
+
+    this.toolbarElement.appendChild(myToolbar);
+
+
+
+    this.tools.forEach((element, index) => {
+      let myTool = document.createElement("div");
+      myTool.innerText = element;
+      myTool.style.height = "50px";
+      myTool.style.width = "50px";
+      myTool.style.backgroundColor = "rgb(100,100,100)";
+
+      myTool.addEventListener("pointerdown", (e) => {
+        this.CahngeTool(index);
+        e.stopPropagation();
+      });
+      myToolbar.appendChild(myTool);
+    });
+
+
+    let mySettings = document.createElement("section");
+
+    this.toolbarElement.appendChild(mySettings);
+
+    // settings
+    let mySlider = document.createElement("input");
+    mySlider.type = "range";
+    mySlider.id = "strokeWidth";
+    mySlider.name = "strokeWidth";
+    mySlider.min = "1";
+    mySlider.max = "80";
+    mySlider.value = this.currentWidth;
+
+    mySlider.addEventListener("input", (e) => {
+      e.stopPropagation();
+      this.currentWidth = mySlider.value;
+    });
+
+    this.widthSlider = mySlider;
+
+    mySettings.appendChild(mySlider);
+
+    // colors
+
+
+   
   }
 
   hexToRgb(str) {
