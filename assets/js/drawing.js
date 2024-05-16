@@ -53,13 +53,10 @@ export class DrawEngine {
 
     this.toolbarElement.innerHTML = "";
 
-    let myToolbar = document.createElement("section");
-
-
+   
     let myColorBox = document.createElement("section");
 
     this.toolbarElement.appendChild(myColorBox);
-
 
 
     let colorSelector = document.createElement("input");
@@ -87,6 +84,10 @@ export class DrawEngine {
 
     myColorBox.appendChild(colorSelector);
 
+
+
+    let myToolbar = document.createElement("section");
+    myToolbar.id='tools'
     this.toolbarElement.appendChild(myToolbar);
 
 
