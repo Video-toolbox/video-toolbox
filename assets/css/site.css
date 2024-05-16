@@ -6,7 +6,8 @@
   padding: 0;
 }
 
-.drawPageContainer {
+body{
+
   width: 100vw;
   height: 100vh;
   font-family: Arial, sans-serif;
@@ -18,13 +19,126 @@
   font-style: normal;
 
   display: grid;
-  grid-template-columns: 1080px auto;
-  grid-template-rows: 70px 720px auto;
+  grid-template-columns:1fr;
+  grid-template-rows: 70px auto;
 
   user-select: none;
   -webkit-user-select: none;
 
-  overflow: hidden;
+ /*  overflow: hidden; */
+
+}
+
+#topBar{
+  width: 100%;
+  height: 100%;
+  background-color: burlywood;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+}
+
+
+
+#localToolBar{
+  position: relative;
+width: 1080px;
+height: 100%;
+background-color: coral;
+
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding-left: 1em;
+padding-right: 1em;
+
+}
+
+
+#tools {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  column-gap: 5px;
+}
+
+#tools div {
+  border-radius: 0.5em;
+  padding: 5px;
+}
+
+#tools section {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+
+  align-items: flex-end;
+}
+
+
+
+#globalNav{
+display: inline-block;
+background-color: aquamarine;
+}
+
+.ShotListContainer{
+width: 100%;
+  height: 100%;
+grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows:1fr;
+}
+
+.shotList{
+
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.shotInfo{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+}
+
+.drawPageContainer {
+  width: 100%;
+  height: 100%;
+
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+
+
+  display: grid;
+  grid-template-columns: 1080px auto;
+  grid-template-rows: 720px auto;
+
+
 }
 
 #draw {
@@ -53,39 +167,15 @@
   max-width: 600px;
 }
 
-#toolBar {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  align-items: center;
-  padding-left: 1em;
-  padding-right: 1em;
-}
 
-#toolBar div {
-  border-radius: 0.5em;
-  padding: 5px;
-}
 
-#toolBar section {
-  display: flex;
-  flex-direction: row;
-  column-gap: 5px;
-
-  align-items: flex-end;
-}
 
 #storyboard {
   grid-column-start: 1;
   grid-column-end: 2;
-  grid-row-start: 3;
-  grid-row-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
   padding: 5px;
   display: flex;
   flex-direction: row;
@@ -99,12 +189,9 @@ button {
   border-radius: 0.5em;
 }
 
-#tools {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  column-gap: 5px;
-}
+
+
+
 
 /* #toolsettings{
   display: flex;
@@ -211,11 +298,7 @@ width: 50px;
   margin-bottom: 1em;
 }
 
-.appNavigation {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+
 
 .hidden {
   display: none;

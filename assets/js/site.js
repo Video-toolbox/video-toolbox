@@ -7,15 +7,22 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js");
 }
 
+let globalNavElement=document.getElementById('globalNav');
+let LocalToolbar=document.getElementById('localToolBar');
 
-let storyboardElement = document.getElementById('timeline');
+InitNavigation(globalNavElement)
+
+
+
 
 // init drawEngine
-export const drawEngine = new DrawEngine('canvas', 'toolBar');
+export const drawEngine = new DrawEngine('canvas', 'localToolBar');
 
 
 
 
+
+let storyboardElement = document.getElementById('timeline');
 
 // start storyboard
 createPage('drawPage')
@@ -28,6 +35,9 @@ clearCache.addEventListener('click', () => {
     InitStoryboard(storyboardElement, drawEngine.SaveSLide())
 })
 
+
+
+
 export function LoadSlideCallback(myIndex) {
 
     drawEngine.LoadSlide(LoadSlideImage(myIndex))
@@ -38,16 +48,17 @@ export function LoadSlideCallback(myIndex) {
 export function createPage(myPage) {
 
 
-    console.log('createPage: ' + myPage);
+   
 
 
     switch (myPage) {
 
         case 'shotlistPage':
             //load shotlist page
+            console.log(LocalToolbar.innerHTML);
+            LocalToolbar.innerHTML=""
 
-
-            InitNavigation(document.getElementById('shotlistPageNav'))
+           
 
 
 
@@ -55,12 +66,15 @@ export function createPage(myPage) {
 
         case 'logginPage':
             //load shotlist page
-            InitNavigation(document.getElementById('loggingPageNav'))
+          
+            LocalToolbar.innerHTML=""
+
 
             break;
 
         case 'drawPage':
-            InitNavigation(document.getElementById('drawNav'))
+          
+        
             InitStoryboard(storyboardElement, drawEngine.SaveSLide())
 
             break;
