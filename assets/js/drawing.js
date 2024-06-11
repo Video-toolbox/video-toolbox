@@ -22,7 +22,7 @@ export class DrawEngine {
     this.widthSlider = null;
     this.pressurSense = true;
     this.currentImageData = null;
-    this.undoCache=[]
+    this.undoCache = []
     this.updateSlideFunction = updateSlideImage;
     this.tools = ["pencil", "pen", "marker", "eraser", "clear"];
     this.colorSelectorContainer = null;
@@ -39,11 +39,11 @@ export class DrawEngine {
 
     window.addEventListener('keyup', (e) => {
 
-      if(e.metaKey){
+      if (e.metaKey) {
         alert('meta key pressed')
       }
 
-      if (e.ctrlKey == true  && e.key == 'z') {
+      if (e.ctrlKey == true && e.key == 'z') {
 
         this.undoDraw()
 
@@ -131,7 +131,7 @@ export class DrawEngine {
     // colors
 
 
-   
+
   }
 
   hexToRgb(str) {
@@ -192,7 +192,8 @@ export class DrawEngine {
 
   initialize() {
     //let offset = getOffset(this.canvas);
-
+    console.log('init draw engine');
+    //this.ClearCanvas();
     if (window.PointerEvent) {
       //this.canvas.addEventListener("pointermove", this.draw.bind(this));
 
@@ -208,14 +209,6 @@ export class DrawEngine {
         false
       );
 
-
-
-     /*  this.canvas.addEventListener(
-        "touchstart",
-        this.startPointer.bind(this),
-        false
-      ); */
-
       this.canvas.addEventListener(
         "touchend",
         this.endTouch.bind(this),
@@ -228,11 +221,11 @@ export class DrawEngine {
         false
       );
 
-    /*   this.canvas.addEventListener(
+      this.canvas.addEventListener(
         "pointerleave",
         this.endPointer.bind(this),
         false
-      ); */
+      );
 
     } else {
       this.points = [];
@@ -247,10 +240,9 @@ export class DrawEngine {
       this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
     }
 
+
     this.currentImageData = this.canvas.toDataURL();
-
-this.undoCache.push(this.currentImageData)
-
+    this.addToUndo(this.currentImageData)
   }
 
   draw(e) {
@@ -262,7 +254,7 @@ this.undoCache.push(this.currentImageData)
     */
 
     if (!this.isDrawing) {
-    
+
       return;
     }
 
@@ -341,58 +333,62 @@ this.undoCache.push(this.currentImageData)
   }
 
   startPointer(e) {
-    
- this.isDrawing = true;
+    e.preventDefault()
+    this.isDrawing = true;
+    this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
     this.canvas.addEventListener("mousemove", this.myDraw, false);
-    //console.log('start pointer');      
-    
-   
+    console.log('start pointer');
+
+
   }
 
-  endTouch(e){
+  endTouch(e) {
 
     e.preventDefault();
- this.isDrawing = false;    
-   
-    if (e.touches.length ==2) {
+    //this.isDrawing = false;
+    this.endDraw()
+    if (e.touches.length == 2) {
 
       this.undoDraw()
     }
 
   }
 
-  startTouch(e){
+  startTouch(e) {
 
     e.preventDefault();
-    
-   if(e.touches.length>=2){
-    this.isDrawing = false;
-   }
 
-    if (e.touches.length ==2) {
-     
+    if (e.touches.length >= 2) {
+      this.isDrawing = false;
+    }
+
+    if (e.touches.length == 2) {
+
       this.undoDraw()
     }
 
   }
 
   endPointer(e) {
-let myPointer=e.pointerType
-if(myPointer=='pen'){
+    console.log('end pointer');
+    e.preventDefault()
+    if (this.isDrawing) {
+      this.endDraw()
+    }
+
+  }
+
+  endDraw() {
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
     this.canvas.removeEventListener("mousemove", this.myDraw, false);
-
-    //console.log('end pointer');
-
     this.lastPt = null;
     this.isDrawing = false;
     this.points = [];
     this.currentImageData = this.canvas.toDataURL();
-    this.undoCache.push(this.currentImageData)
-    console.log(this.undoCache.length);
+
     this.updateSlideFunction(this.currentImageData);
-}    
+
   }
 
   midPointBtw(p1, p2) {
@@ -409,22 +405,29 @@ if(myPointer=='pen'){
 
   LoadSlide(slideData) {
     //var dataURL = localStorage.getItem("testImage");
+    console.log('slide data: ', slideData);
+    this.ClearCanvas();
 
     var img = new Image();
-
     //img.src = dataURL;
-    img.src = slideData;
-    //console.log(slideData);
 
+    if (slideData != null) {
+      img.src = slideData;
+    } else {
+      img.src = this.currentImageData;
+    }
+
+    //console.log(slideData);
     let myCtx = this.ctx;
-    this.ClearCanvas();
+
 
     img.onload = function () {
       myCtx.drawImage(img, 0, 0);
     };
+
     this.currentImageData = slideData;
-this.undoCache=[]
-this.undoCache.push(this.currentImageData)
+    this.undoCache = []
+    this.undoCache.unshift(this.currentImageData)
     this.updateSlideFunction(this.currentImageData);
   }
 
@@ -433,7 +436,7 @@ this.undoCache.push(this.currentImageData)
     this.points = [];
     this.lastPt = null;
     this.currentImageData = this.canvas.toDataURL();
-    //this.updateSlideFunction( this.currentImageData)
+    this.updateSlideFunction(this.currentImageData)
   }
 
   SetColor(myColArray) {
@@ -443,34 +446,41 @@ this.undoCache.push(this.currentImageData)
   undoDraw() {
 
     //img.src = dataURL;
-    if(this.undoCache.length>0){
+    if (this.undoCache.length > 0) {
 
       console.log('undoing');
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      this.undoCache.pop()
+
 
       let img = new Image();
-    img.src = this.undoCache[this.undoCache.length-1];
+      img.src = this.undoCache.shift();
 
-    //img.src = slideData; 
-    //console.log(slideData);
-    let myCtx = this.ctx; 
+      //img.src = slideData; 
+      //console.log(slideData);
+      let myCtx = this.ctx;
 
 
-    img.onload = function () {
-      myCtx.drawImage(img, 0, 0);
+      img.onload = function () {
+        myCtx.drawImage(img, 0, 0);
+      }
+
+      this.currentImageData = img.src;
+      this.updateSlideFunction(this.currentImageData);
+
+      console.log('undo cache: ' + this.undoCache.length);
+
+    } else {
+      //alert('no undo')
     }
-
-    this.currentImageData = img.src;
-    this.updateSlideFunction(this.currentImageData);
-
-    console.log('undo cache: '+this.undoCache.length);
-    
-  }else{
-    alert('no undo')
   }
+
+  addToUndo(myImageData) {
+    this.undoCache.unshift(myImageData)
+    console.log("undo cache", this.undoCache.length);
   }
+
+  clearUndo() { }
 
 
 }

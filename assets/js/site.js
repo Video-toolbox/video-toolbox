@@ -11,13 +11,14 @@ if ("serviceWorker" in navigator) {
 let storyboardElement = document.getElementById('timeline');
 
 // init drawEngine
-export const drawEngine = new DrawEngine('canvas', 'toolBar');
+
 
 
 
 
 
 // start storyboard
+export const drawEngine = new DrawEngine('canvas', 'toolBar');
 createPage('drawPage')
 
 
