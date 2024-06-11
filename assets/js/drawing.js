@@ -405,7 +405,7 @@ export class DrawEngine {
 
   LoadSlide(slideData) {
     //var dataURL = localStorage.getItem("testImage");
-    console.log('slide data: ', slideData);
+
     this.ClearCanvas();
 
     var img = new Image();

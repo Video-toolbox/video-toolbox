@@ -115,6 +115,7 @@ export function CreateSlide(myImagedata) {
 
 
   activeStoryboard.slides.push(activeSlide);
+
   currentSlide = activeStoryboard.slides.length - 1;
 
 
