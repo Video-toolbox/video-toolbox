@@ -1,10 +1,16 @@
 import { ReadObject, SaveObject } from "./localstorage_object_module.js";
-import { LoadSlideCallback, drawEngine } from "../site.js";
+import { LoadSlideCallback} from "../site.js";
+import { DrawEngine } from "../drawing.js";
+
+
+
 
 export let StoryboardElement = null;
 export let currentSlide = 0;
 let slideInfoElement = null;
 let boardInfoElement = null;
+
+
 
 export let activeStoryboard = {
   slides: [],
@@ -42,9 +48,10 @@ let firstRun = true
 
 export function InitStoryboard(myElement, imageData) {
 
-  if (firstRun) {
-    firstRun = false
-
+  
+    // Initialize the storyboard
+    createDomElements(myElement)
+   
     StoryboardElement = document.getElementById('timeline');
 
     slideInfoElement = document.getElementById('slideInfo');
@@ -56,6 +63,12 @@ export function InitStoryboard(myElement, imageData) {
       showBoardInfo()
     })
 
+
+    const drawEngine = new DrawEngine('canvas', 'localToolBar');
+
+
+
+
     let newslideButton = document.getElementById('newSlideButton');
 
 
@@ -66,7 +79,14 @@ export function InitStoryboard(myElement, imageData) {
       drawEngine.ClearCanvas();
       CreateSlide(drawEngine.SaveSLide())
     })
-  }
+
+
+    function createDomElements(myElements){
+
+
+      
+    }
+  
 
 
 
@@ -78,6 +98,7 @@ export function InitStoryboard(myElement, imageData) {
 
   showBoardInfo()
 }
+
 
 
 export function CreateStoryboard(name, author, description, imageData) {

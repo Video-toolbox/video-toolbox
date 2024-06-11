@@ -1,6 +1,7 @@
-import { DrawEngine } from "./drawing.js";
 import { InitStoryboard, CreateSlide, updateSlideImage, LoadSlideImage, LoadStoryboard } from "./modules/storyboard_module.js";
 import InitNavigation from './modules/navigation_module.js'
+import initShotList from './modules/shotList_module.js'
+import initLogging  from './modules/logging_module.js'  
 
 
 if ("serviceWorker" in navigator) {
@@ -9,37 +10,30 @@ if ("serviceWorker" in navigator) {
 
 let globalNavElement=document.getElementById('globalNav');
 let LocalToolbar=document.getElementById('localToolBar');
+let appElement=document.getElementById('app');
 
 InitNavigation(globalNavElement)
 
 
 
-
-// init drawEngine
-export const drawEngine = new DrawEngine('canvas', 'localToolBar');
-
-
-
-
-
-let storyboardElement = document.getElementById('timeline');
+//let storyboardElement = document.getElementById('timeline');
 
 // start storyboard
-createPage('drawPage')
+
+createPage('shotlistPage')
 
 
-let clearCache = document.getElementById('clearCache');
+/* let clearCache = document.getElementById('clearCache');
 
 clearCache.addEventListener('click', () => {
     localStorage.clear();
     InitStoryboard(storyboardElement, drawEngine.SaveSLide())
-})
+}) */
 
 
 
 
-export function LoadSlideCallback(myIndex) {
-
+ export function LoadSlideCallback(myIndex) {
     drawEngine.LoadSlide(LoadSlideImage(myIndex))
 }
 
@@ -47,40 +41,27 @@ export function LoadSlideCallback(myIndex) {
 
 export function createPage(myPage) {
 
-
-   
-
-
-    switch (myPage) {
+ switch (myPage) {
 
         case 'shotlistPage':
-            //load shotlist page
-            console.log(LocalToolbar.innerHTML);
-            LocalToolbar.innerHTML=""
-
            
-
-
+            initShotList(appElement)
 
             break;
 
         case 'logginPage':
-            //load shotlist page
-          
-            LocalToolbar.innerHTML=""
-
-
+            initLogging(appElement)
             break;
 
         case 'drawPage':
           
-        
-            InitStoryboard(storyboardElement, drawEngine.SaveSLide())
+           
+            InitStoryboard(appElement)
 
             break;
 
         default:
-            //do nothing
+           
             break;
     }
 
