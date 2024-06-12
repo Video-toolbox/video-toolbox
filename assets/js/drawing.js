@@ -334,21 +334,24 @@ export class DrawEngine {
         //console.log("touch event: " + e);
 
         this.touchCache.push(e)
-        //console.log('touche cache length ' + this.touchCache.length);
+        console.log('touche cache length ' + this.touchCache.length);
 
         if (this.touchCache.length == 1) {
           //this.StartDraw()
           console.log('first touch: ' + e.timeStamp);
-          this.StartDraw()
           this.lastTouch = e.timeStamp
         }
 
-        console.log('current touch: ' + e.timeStamp);
+
+
         let deltaT = e.timeStamp - this.lastTouch
         // touch gesture latency
         console.log('deltaT: ' + deltaT);
+        console.log('current touch: ' + e.timeStamp);
 
-        if (deltaT > 200) {
+        if (deltaT < 500) {
+          console.log('waiting for touches');
+        } else {
 
           if (this.touchCache.length == 2) {
             console.log('2 pøller på pladen');
@@ -364,11 +367,12 @@ export class DrawEngine {
             console.log('3 pøller på pladen');
           }
 
-          this.lastTouch = e.timeStamp
+
         }
 
         break;
       default:
+
         console.log(`pointerType ${e.pointerType} is not supported`);
     }
 
