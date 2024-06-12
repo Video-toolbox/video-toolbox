@@ -63,8 +63,11 @@ export function InitStoryboard(myElement, imageData) {
     newslideButton.addEventListener('click', () => {
 
 
-      drawEngine.ClearCanvas();
-      CreateSlide(drawEngine.SaveSLide())
+      /* drawEngine.ClearCanvas();
+      CreateSlide(drawEngine.SaveSLide()) */
+
+
+      CreateSlide()
     })
   }
 
@@ -98,10 +101,10 @@ export function CreateStoryboard(name, author, description, imageData) {
 
 export function CreateSlide(myImagedata) {
 
+  drawEngine.NewImage();
+  myImagedata = drawEngine.SaveSLide()
 
-
-
-  activeSlide = {
+  let newSlide = {
     info: {
       title: "Slide " + (activeStoryboard.slides.length + 1),
       description: "This is a frame",
@@ -114,14 +117,11 @@ export function CreateSlide(myImagedata) {
 
 
 
-  activeStoryboard.slides.push(activeSlide);
-
-  currentSlide = activeStoryboard.slides.length - 1;
-
-
-
+  activeStoryboard.slides.push(newSlide);
+  currentSlide = activeStoryboard.slides.length - 1
   SaveStoryboard();
   ShowStoryboard();
+
 }
 
 export function LoadSlideImage(mySlide) {
@@ -196,10 +196,9 @@ function ShowStoryboard() {
   StoryboardElement.innerHTML = '';
   //StoryboardElement.innerHTML = `<h2>${activeStoryboard.info.name}</h2>`;
 
-
   activeStoryboard.slides.forEach((slide, index) => {
-    var img = new Image();
 
+    var img = new Image();
     img.src = slide.image;
     let mySlide = document.createElement("div");
 
@@ -229,6 +228,7 @@ function ShowStoryboard() {
     StoryboardElement.appendChild(mySlide);
 
   });
+
   showFrameInfo()
 
 }
@@ -238,8 +238,6 @@ function showFrameInfo() {
   let myInfo = activeStoryboard.slides[currentSlide].info;
 
   slideInfoElement.innerHTML = ""
-
-
 
   let myLabel = document.createElement('label')
   myLabel.innerText = 'Title'
