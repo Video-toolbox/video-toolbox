@@ -347,12 +347,15 @@ export class DrawEngine {
     if (e.touches.length == 2) {
 
       this.undoDraw()
+    } else {
+      //this.isDrawing = false;
+      if (this.isDrawing) {
+        this.endDraw()
+      }
+
     }
 
-    //this.isDrawing = false;
-    if (this.isDrawing) {
-      this.endDraw()
-    }
+
 
 
   }
@@ -362,13 +365,13 @@ export class DrawEngine {
     e.preventDefault();
     e.stopPropagation()
 
-    if (e.touches.length >= 2) {
+    if (e.touches.length > 1) {
       this.isDrawing = false;
-    }
-
-    if (e.touches.length == 2) {
-
-      this.undoDraw()
+    } else {
+      this.isDrawing = true;
+      this.addToUndo(this.currentImageData)
+      this.canvas.addEventListener("pointermove", this.myDraw, false);
+      this.canvas.addEventListener("mousemove", this.myDraw, false);
     }
 
   }
