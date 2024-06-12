@@ -23,6 +23,7 @@ export class DrawEngine {
     this.tools = ["pencil", "pen", "marker", "eraser", "clear"];
     this.colorSelectorContainer = null;
     this.touchCache = []
+    this.lastTouch = 0;
 
     this.CreateToolMenu();
     this.initialize();
@@ -207,23 +208,15 @@ export class DrawEngine {
         false
       );
 
-      /*  this.canvas.addEventListener(
-         "pointerleave",
-         this.endPointer.bind(this),
-         false
-       ); */
+      this.canvas.addEventListener(
+        "pointerout",
+        this.endPointer.bind(this),
+        false
+      );
 
     } else {
-      /*   this.points = [];
-        //Provide fallback for user agents that do not support Pointer Events
-        //this.canvas.addEventListener("mousemove", this.draw.bind(this));
-  
-        this.canvas.addEventListener(
-          "mousedown",
-          this.startPointer.bind(this),
-          false
-        );
-        this.canvas.addEventListener("mouseup", this.endPointer.bind(this)); */
+
+      alert("this device is not supported")
     }
 
 
@@ -319,7 +312,7 @@ export class DrawEngine {
   }
 
   startPointer(e) {
-    console.log('startPointer: ' + e.pointerType);
+    console.log('start pointer');
 
     e.preventDefault()
     e.stopPropagation()
@@ -336,16 +329,26 @@ export class DrawEngine {
         this.StartDraw()
         break;
       case "touch":
+
         console.log("touch event: " + e);
         this.touchCache.push(e)
+
+
         if (this.touchCache.length == 1) {
           this.StartDraw()
         }
 
         if (this.touchCache.length == 2) {
-          this.undoDraw()
+          let deltaT = e.timeStamp - this.lastTouch
+          if (deltaT < 200) {
+            this.CancleUndo()
+            console.log("double tap");
+            this.undoDraw()
+          }
+
         }
 
+        this.lastTouch = e.timeStamp
         break;
       default:
         console.log(`pointerType ${e.pointerType} is not supported`);
@@ -354,11 +357,12 @@ export class DrawEngine {
   }
 
 
+
+
   endPointer(e) {
     e.preventDefault()
     e.stopPropagation()
     console.log('endPointer');
-    console.trace()
 
     switch (e.pointerType) {
       case "mouse":
@@ -403,6 +407,7 @@ export class DrawEngine {
   }
 
   StartDraw() {
+    console.log('start draw');
     this.isDrawing = true;
     this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
@@ -410,6 +415,7 @@ export class DrawEngine {
   }
 
   endDraw() {
+    console.log('end draw');
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
 
     this.lastPt = null;
@@ -516,6 +522,10 @@ export class DrawEngine {
   addToUndo(myImageData) {
     this.undoCache.unshift(myImageData)
     console.log("undo cache", this.undoCache.length);
+  }
+
+  CancleUndo() {
+    this.undoCache.shift()
   }
 
   clearUndo() {
