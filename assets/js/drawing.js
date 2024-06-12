@@ -350,50 +350,8 @@ export class DrawEngine {
         console.log(`pointerType ${e.pointerType} is not supported`);
     }
 
-    /*    this.isDrawing = true;
-       this.addToUndo(this.currentImageData)
-       this.canvas.addEventListener("pointermove", this.myDraw, false);
-       this.canvas.addEventListener("mousemove", this.myDraw, false); */
   }
 
-
-
-  /*   endTouch(e) {
-      console.log('end touch: ' + e.touches.length);
-  
-      e.preventDefault();
-      e.stopPropagation()
-  
-  
-  
-      if (this.isDrawing) {
-        this.endDraw()
-      }
-  
-  
-  
-    } */
-
-  /*   startTouch(e) {
-      console.log('start touch: ' + e.touches.length);
-      e.preventDefault();
-      e.stopPropagation()
-  
-      if (e.touches.length > 1) {
-        this.isDrawing = false;
-  
-        if (e.touches.length == 2) {
-          this.undoDraw()
-        }
-  
-      } else {
-        this.isDrawing = true;
-        this.addToUndo(this.currentImageData)
-        this.canvas.addEventListener("pointermove", this.myDraw, false);
-        this.canvas.addEventListener("mousemove", this.myDraw, false);
-      }
-  
-    } */
 
   endPointer(e) {
     e.preventDefault()
@@ -414,9 +372,17 @@ export class DrawEngine {
         break;
       case "touch":
 
-        console.log("touch event: " + e);
-        const index = this.touchCache.findIndex(e.pointerId);
-        this.touchCache.splice(index, 1);
+        console.log("touch event: " + e.pointerId);
+        let myIndex = 9999999999
+
+        this.touchCache.forEach((pEvent, index) => {
+          console.log(pEvent.pointerId);
+          if (pEvent.pointerId == e.pointerId) {
+            myIndex = index
+          }
+        });
+        if (myIndex < 9999999999)
+          this.touchCache.splice(myIndex, 1);
         console.log(this.touchCache);
 
 
