@@ -443,6 +443,7 @@ export class DrawEngine {
     this.points = [];
     this.lastPt = null;
     this.currentImageData = this.canvas.toDataURL();
+    this.clearUndo()
   }
 
   SetColor(myColArray) {
