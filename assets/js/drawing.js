@@ -333,23 +333,37 @@ export class DrawEngine {
         console.log("touch event: " + e);
 
         this.touchCache.push(e)
-        console.log('touche cache length ' + this.touchCache.length);
+        //console.log('touche cache length ' + this.touchCache.length);
 
         if (this.touchCache.length == 1) {
-          this.StartDraw()
+          //this.StartDraw()
+          this.lastTouch = e.timeStamp
         }
 
-        if (this.touchCache.length == 2) {
-          let deltaT = e.timeStamp - this.lastTouch
-          if (deltaT < 200) {
+
+        let deltaT = e.timeStamp - this.lastTouch
+        // touch gesture latency
+        if (deltaT < 200) {
+
+          if (this.touchCache.length == 1) {
+            this.StartDraw()
+          }
+
+          if (this.touchCache.length == 2) {
+            let deltaT = e.timeStamp - this.lastTouch
+
             this.CancleUndo()
             this.endDraw()
             this.undoDraw()
+
+          }
+
+          if (this.touchCache.length == 3) {
+            console.log('3 pøller på pladen');
           }
 
         }
 
-        this.lastTouch = e.timeStamp
         break;
       default:
         console.log(`pointerType ${e.pointerType} is not supported`);
