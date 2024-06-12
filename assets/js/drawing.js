@@ -356,6 +356,7 @@ export class DrawEngine {
   endPointer(e) {
     e.preventDefault()
     e.stopPropagation()
+    console.log('endPointer');
 
     switch (e.pointerType) {
       case "mouse":
@@ -381,14 +382,21 @@ export class DrawEngine {
             myIndex = index
           }
         });
-        if (myIndex < 9999999999)
+
+        if (myIndex < 9999999999) {
+
           this.touchCache.splice(myIndex, 1);
-        console.log(this.touchCache);
+          console.log('deleting ' + this.touchCache);
+        }
+
 
 
         break;
       default:
         console.log(`pointerType ${e.pointerType} is not supported`);
+    }
+    if (this.isDrawing) {
+      this.endDraw()
     }
 
   }
