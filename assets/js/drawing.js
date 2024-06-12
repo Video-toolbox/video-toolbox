@@ -312,7 +312,7 @@ export class DrawEngine {
   }
 
   startPointer(e) {
-    console.log('start pointer');
+    //console.log('start pointer');
 
     e.preventDefault()
     e.stopPropagation()
@@ -330,7 +330,7 @@ export class DrawEngine {
         break;
       case "touch":
 
-        console.log("touch event: " + e);
+        //console.log("touch event: " + e);
 
         this.touchCache.push(e)
         //console.log('touche cache length ' + this.touchCache.length);
@@ -346,10 +346,12 @@ export class DrawEngine {
         if (deltaT < 200) {
 
           if (this.touchCache.length == 1) {
+            console.log('1 pølle på pladen');
             this.StartDraw()
           }
 
           if (this.touchCache.length == 2) {
+            console.log('2 pøller på pladen');
             let deltaT = e.timeStamp - this.lastTouch
 
             this.CancleUndo()
@@ -395,7 +397,7 @@ export class DrawEngine {
         break;
       case "touch":
 
-        console.log("end touch event: ");
+        //console.log("end touch event: ");
         console.log(e.pointerId);
 
 
