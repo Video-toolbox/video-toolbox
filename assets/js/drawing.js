@@ -358,6 +358,7 @@ export class DrawEngine {
     e.preventDefault()
     e.stopPropagation()
     console.log('endPointer');
+    console.trace()
 
     switch (e.pointerType) {
       case "mouse":
@@ -405,12 +406,12 @@ export class DrawEngine {
     this.isDrawing = true;
     this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
-    this.canvas.addEventListener("mousemove", this.myDraw, false);
+
   }
 
   endDraw() {
     this.canvas.removeEventListener("pointermove", this.myDraw, false);
-    this.canvas.removeEventListener("mousemove", this.myDraw, false);
+
     this.lastPt = null;
     this.isDrawing = false;
     this.points = [];
