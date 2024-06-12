@@ -339,19 +339,17 @@ export class DrawEngine {
         if (this.touchCache.length == 1) {
           //this.StartDraw()
           console.log('first touch: ' + e.timeStamp);
+          this.StartDraw()
           this.lastTouch = e.timeStamp
         }
 
-
+        console.log('current touch: ' + e.timeStamp);
         let deltaT = e.timeStamp - this.lastTouch
         // touch gesture latency
         console.log('deltaT: ' + deltaT);
         if (deltaT > 200) {
 
-          if (this.touchCache.length == 1) {
-            console.log('1 pølle på pladen');
-            this.StartDraw()
-          }
+
 
           if (this.touchCache.length == 2) {
             console.log('2 pøller på pladen');
@@ -401,20 +399,20 @@ export class DrawEngine {
       case "touch":
 
         //console.log("end touch event: ");
-        console.log(e.pointerId);
+        //console.log(e.pointerId);
 
 
 
         this.touchCache.forEach((pEvent, index) => {
 
-          console.log("comparing: " + pEvent.pointerId);
+          //console.log("comparing: " + pEvent.pointerId);
           if (pEvent.pointerId == e.pointerId) {
             //myIndex = index
             this.touchCache.splice(index, 1);
           }
         });
 
-        console.log(this.touchCache.length);
+        console.log('touch cache' + this.touchCache.length);
 
 
         break;
