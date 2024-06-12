@@ -190,6 +190,7 @@ export class DrawEngine {
   initialize() {
     //let offset = getOffset(this.canvas);
     console.log('init draw engine');
+    this.points = [];
     //this.ClearCanvas();
     if (window.PointerEvent) {
       //this.canvas.addEventListener("pointermove", this.draw.bind(this));
@@ -213,16 +214,16 @@ export class DrawEngine {
       );
 
     } else {
-      this.points = [];
-      //Provide fallback for user agents that do not support Pointer Events
-      //this.canvas.addEventListener("mousemove", this.draw.bind(this));
-
-      this.canvas.addEventListener(
-        "mousedown",
-        this.startPointer.bind(this),
-        false
-      );
-      this.canvas.addEventListener("mouseup", this.endPointer.bind(this));
+      /*   this.points = [];
+        //Provide fallback for user agents that do not support Pointer Events
+        //this.canvas.addEventListener("mousemove", this.draw.bind(this));
+  
+        this.canvas.addEventListener(
+          "mousedown",
+          this.startPointer.bind(this),
+          false
+        );
+        this.canvas.addEventListener("mouseup", this.endPointer.bind(this)); */
     }
 
 
