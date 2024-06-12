@@ -373,20 +373,19 @@ export class DrawEngine {
         break;
       case "touch":
 
-        console.log("touch event: " + e.pointerId);
+        console.log("end touch event: " + e.pointerId);
         let myIndex = 9999999999
 
         this.touchCache.forEach((pEvent, index) => {
-          console.log(pEvent.pointerId);
+          console.log("comparing: " + pEvent.pointerId);
           if (pEvent.pointerId == e.pointerId) {
             myIndex = index
           }
         });
 
         if (myIndex < 9999999999) {
-
           this.touchCache.splice(myIndex, 1);
-          console.log('deleting ' + this.touchCache);
+          console.log('deleting ' + this.touchCache.length);
         }
 
 
