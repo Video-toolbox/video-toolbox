@@ -331,6 +331,7 @@ export class DrawEngine {
       case "touch":
 
         console.log("touch event: " + e);
+        console.log('touche cache length ' + this.touchCache.length);
         this.touchCache.push(e)
 
 
@@ -342,7 +343,7 @@ export class DrawEngine {
           let deltaT = e.timeStamp - this.lastTouch
           if (deltaT < 200) {
             this.CancleUndo()
-            console.log("double tap");
+            this.endDraw()
             this.undoDraw()
           }
 
@@ -362,6 +363,7 @@ export class DrawEngine {
   endPointer(e) {
     e.preventDefault()
     e.stopPropagation()
+
     console.log('endPointer');
 
     switch (e.pointerType) {
@@ -382,9 +384,10 @@ export class DrawEngine {
         console.log("end touch event: ");
         console.log(e.pointerId);
 
-        let myIndex = 9999999999
+
 
         this.touchCache.forEach((pEvent, index) => {
+
           console.log("comparing: " + pEvent.pointerId);
           if (pEvent.pointerId == e.pointerId) {
             //myIndex = index
@@ -392,10 +395,6 @@ export class DrawEngine {
           }
         });
 
-        /*  if (myIndex < 9999999999) {
-           this.touchCache.splice(myIndex, 1);
-           console.log('deleting ' + this.touchCache.length);
-         } */
         console.log(this.touchCache.length);
 
 
