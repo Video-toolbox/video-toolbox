@@ -329,6 +329,7 @@ export class DrawEngine {
   }
 
   startPointer(e) {
+    console.log('startPointer');
     e.preventDefault()
     e.stopPropagation()
     this.isDrawing = true;
