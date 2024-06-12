@@ -341,27 +341,27 @@ export class DrawEngine {
   }
 
   endTouch(e) {
+    console.log('end touch: ' + e.touches.length);
+
     e.preventDefault();
     e.stopPropagation()
 
     if (e.touches.length == 2) {
 
       this.undoDraw()
+
     } else {
-      //this.isDrawing = false;
+
       if (this.isDrawing) {
         this.endDraw()
       }
 
     }
 
-
-
-
   }
 
   startTouch(e) {
-
+    console.log('start touch: ' + e.touches.length);
     e.preventDefault();
     e.stopPropagation()
 
