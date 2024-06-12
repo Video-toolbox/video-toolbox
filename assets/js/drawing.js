@@ -394,7 +394,7 @@ export class DrawEngine {
            this.touchCache.splice(myIndex, 1);
            console.log('deleting ' + this.touchCache.length);
          } */
-
+        console.log(this.touchCache);
 
 
         break;
