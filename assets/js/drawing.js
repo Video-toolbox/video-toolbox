@@ -385,14 +385,15 @@ export class DrawEngine {
         this.touchCache.forEach((pEvent, index) => {
           console.log("comparing: " + pEvent.pointerId);
           if (pEvent.pointerId == e.pointerId) {
-            myIndex = index
+            //myIndex = index
+            this.touchCache.splice(index, 1);
           }
         });
 
-        if (myIndex < 9999999999) {
-          this.touchCache.splice(myIndex, 1);
-          console.log('deleting ' + this.touchCache.length);
-        }
+        /*  if (myIndex < 9999999999) {
+           this.touchCache.splice(myIndex, 1);
+           console.log('deleting ' + this.touchCache.length);
+         } */
 
 
 
