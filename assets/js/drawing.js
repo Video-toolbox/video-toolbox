@@ -205,7 +205,7 @@ export class DrawEngine {
         false
       );
 
-      this.canvas.addEventListener(
+      /* this.canvas.addEventListener(
         "touchend",
         this.endTouch.bind(this),
         false
@@ -215,7 +215,7 @@ export class DrawEngine {
         "touchstart",
         this.startTouch.bind(this),
         false
-      );
+      ); */
 
       this.canvas.addEventListener(
         "pointerleave",
@@ -330,8 +330,27 @@ export class DrawEngine {
 
   startPointer(e) {
     console.log('startPointer');
+
+    switch (e.pointerType) {
+      case "mouse":
+        //process_pointer_mouse(event);
+        break;
+      case "pen":
+        //process_pointer_pen(event);
+        break;
+      case "touch":
+        console.log("touch event: " + e.touches.length);
+        break;
+      default:
+        console.log(`pointerType ${e.pointerType} is not supported`);
+    }
+
+
+
     e.preventDefault()
     e.stopPropagation()
+
+
     this.isDrawing = true;
     this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
