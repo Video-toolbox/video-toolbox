@@ -329,7 +329,7 @@ export class DrawEngine {
   }
 
   startPointer(e) {
-    console.log('startPointer');
+    console.log('startPointer: ' + e.pointerType);
 
     switch (e.pointerType) {
       case "mouse":
