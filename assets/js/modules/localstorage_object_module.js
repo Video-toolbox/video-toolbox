@@ -4,7 +4,7 @@
 export function SaveObject(basketData, itemName) {
     let mySerializedData = JSON.stringify(basketData)
     localStorage.setItem(itemName, mySerializedData)
-    //console.log(`Local storage usage: ${localStorageSpace()}`);
+    console.log(`Local storage usage: ${localStorageSpace()}`);
 }
 
 

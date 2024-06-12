@@ -340,16 +340,17 @@ export class DrawEngine {
   }
 
   endTouch(e) {
+    if (e.touches.length == 2) {
+
+      this.undoDraw()
+    }
 
     e.preventDefault();
     //this.isDrawing = false;
     if (this.isDrawing) {
       this.endDraw()
     }
-    if (e.touches.length == 2) {
 
-      this.undoDraw()
-    }
 
   }
 
