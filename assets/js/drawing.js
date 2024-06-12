@@ -331,9 +331,9 @@ export class DrawEngine {
       case "touch":
 
         console.log("touch event: " + e);
-        console.log('touche cache length ' + this.touchCache.length);
-        this.touchCache.push(e)
 
+        this.touchCache.push(e)
+        console.log('touche cache length ' + this.touchCache.length);
 
         if (this.touchCache.length == 1) {
           this.StartDraw()
