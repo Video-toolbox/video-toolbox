@@ -207,11 +207,11 @@ export class DrawEngine {
         false
       );
 
-      this.canvas.addEventListener(
-        "pointerleave",
-        this.endPointer.bind(this),
-        false
-      );
+      /*  this.canvas.addEventListener(
+         "pointerleave",
+         this.endPointer.bind(this),
+         false
+       ); */
 
     } else {
       /*   this.points = [];
