@@ -192,6 +192,7 @@ export class DrawEngine {
     //let offset = getOffset(this.canvas);
     console.log('init draw engine');
     this.points = [];
+    this.touchCache = []
     //this.ClearCanvas();
     if (window.PointerEvent) {
       //this.canvas.addEventListener("pointermove", this.draw.bind(this));
@@ -337,6 +338,7 @@ export class DrawEngine {
 
         if (this.touchCache.length == 1) {
           //this.StartDraw()
+          console.log('first touch: ' + e.timeStamp);
           this.lastTouch = e.timeStamp
         }
 
