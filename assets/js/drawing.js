@@ -344,7 +344,7 @@ export class DrawEngine {
         let deltaT = e.timeStamp - this.lastTouch
         // touch gesture latency
         console.log('deltaT: ' + deltaT);
-        if (deltaT < 100) {
+        if (deltaT > 200) {
 
           if (this.touchCache.length == 1) {
             console.log('1 pølle på pladen');
