@@ -22,6 +22,7 @@ export class DrawEngine {
     this.updateSlideFunction = updateSlideImage;
     this.tools = ["pencil", "pen", "marker", "eraser", "clear"];
     this.colorSelectorContainer = null;
+    this.touchCache = []
 
     this.CreateToolMenu();
     this.initialize();
@@ -205,18 +206,6 @@ export class DrawEngine {
         false
       );
 
-      /* this.canvas.addEventListener(
-        "touchend",
-        this.endTouch.bind(this),
-        false
-      );
-
-      this.canvas.addEventListener(
-        "touchstart",
-        this.startTouch.bind(this),
-        false
-      ); */
-
       this.canvas.addEventListener(
         "pointerleave",
         this.endPointer.bind(this),
@@ -331,81 +320,118 @@ export class DrawEngine {
   startPointer(e) {
     console.log('startPointer: ' + e.pointerType);
 
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.isDrawing = false;
+
     switch (e.pointerType) {
       case "mouse":
         //process_pointer_mouse(event);
+        this.StartDraw()
         break;
       case "pen":
         //process_pointer_pen(event);
+        this.StartDraw()
         break;
       case "touch":
-        console.log("touch event: " + e.touches.length);
+        console.log("touch event: " + e);
+        this.touchCache.push(e)
+        if (this.touchCache.length == 1) {
+          this.StartDraw()
+        }
+
+        if (this.touchCache.length == 2) {
+          this.undoDraw()
+        }
+
         break;
       default:
         console.log(`pointerType ${e.pointerType} is not supported`);
     }
 
+    /*    this.isDrawing = true;
+       this.addToUndo(this.currentImageData)
+       this.canvas.addEventListener("pointermove", this.myDraw, false);
+       this.canvas.addEventListener("mousemove", this.myDraw, false); */
+  }
 
 
+
+  /*   endTouch(e) {
+      console.log('end touch: ' + e.touches.length);
+  
+      e.preventDefault();
+      e.stopPropagation()
+  
+  
+  
+      if (this.isDrawing) {
+        this.endDraw()
+      }
+  
+  
+  
+    } */
+
+  /*   startTouch(e) {
+      console.log('start touch: ' + e.touches.length);
+      e.preventDefault();
+      e.stopPropagation()
+  
+      if (e.touches.length > 1) {
+        this.isDrawing = false;
+  
+        if (e.touches.length == 2) {
+          this.undoDraw()
+        }
+  
+      } else {
+        this.isDrawing = true;
+        this.addToUndo(this.currentImageData)
+        this.canvas.addEventListener("pointermove", this.myDraw, false);
+        this.canvas.addEventListener("mousemove", this.myDraw, false);
+      }
+  
+    } */
+
+  endPointer(e) {
     e.preventDefault()
     e.stopPropagation()
 
+    switch (e.pointerType) {
+      case "mouse":
+        //process_pointer_mouse(event);
+        if (this.isDrawing) {
+          this.endDraw()
+        }
+        break;
+      case "pen":
+        //process_pointer_pen(event);
+        if (this.isDrawing) {
+          this.endDraw()
+        }
+        break;
+      case "touch":
 
+        console.log("touch event: " + e);
+        const index = this.touchCache.findIndex(e.pointerId);
+        this.touchCache.splice(index, 1);
+        console.log(this.touchCache);
+
+
+        break;
+      default:
+        console.log(`pointerType ${e.pointerType} is not supported`);
+    }
+
+  }
+
+  StartDraw() {
     this.isDrawing = true;
     this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
     this.canvas.addEventListener("mousemove", this.myDraw, false);
-
-
-
-  }
-
-  endTouch(e) {
-    console.log('end touch: ' + e.touches.length);
-
-    e.preventDefault();
-    e.stopPropagation()
-
-
-
-    if (this.isDrawing) {
-      this.endDraw()
-    }
-
-
-
-  }
-
-  startTouch(e) {
-    console.log('start touch: ' + e.touches.length);
-    e.preventDefault();
-    e.stopPropagation()
-
-    if (e.touches.length > 1) {
-      this.isDrawing = false;
-
-      if (e.touches.length == 2) {
-        this.undoDraw()
-      }
-
-    } else {
-      this.isDrawing = true;
-      this.addToUndo(this.currentImageData)
-      this.canvas.addEventListener("pointermove", this.myDraw, false);
-      this.canvas.addEventListener("mousemove", this.myDraw, false);
-    }
-
-  }
-
-  endPointer(e) {
-
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (this.isDrawing) {
-      this.endDraw()
-    }
-
   }
 
   endDraw() {
