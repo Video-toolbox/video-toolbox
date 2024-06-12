@@ -330,6 +330,7 @@ export class DrawEngine {
 
   startPointer(e) {
     e.preventDefault()
+    e.stopPropagation()
     this.isDrawing = true;
     this.addToUndo(this.currentImageData)
     this.canvas.addEventListener("pointermove", this.myDraw, false);
@@ -340,12 +341,14 @@ export class DrawEngine {
   }
 
   endTouch(e) {
+    e.preventDefault();
+    e.stopPropagation()
+
     if (e.touches.length == 2) {
 
       this.undoDraw()
     }
 
-    e.preventDefault();
     //this.isDrawing = false;
     if (this.isDrawing) {
       this.endDraw()
@@ -357,6 +360,7 @@ export class DrawEngine {
   startTouch(e) {
 
     e.preventDefault();
+    e.stopPropagation()
 
     if (e.touches.length >= 2) {
       this.isDrawing = false;
@@ -372,6 +376,8 @@ export class DrawEngine {
   endPointer(e) {
 
     e.preventDefault()
+    e.stopPropagation()
+
     if (this.isDrawing) {
       this.endDraw()
     }
