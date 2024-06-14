@@ -340,6 +340,11 @@ export class DrawEngine {
           //this.StartDraw()
           console.log('first touch: ' + e.timeStamp);
           this.lastTouch = e.timeStamp
+
+          setTimeout(() => {
+            console.log("Delayed for 1 second.");
+          }, 1000);
+
         }
 
 
@@ -349,7 +354,7 @@ export class DrawEngine {
         console.log('deltaT: ' + deltaT);
         console.log('current touch: ' + e.timeStamp);
 
-        if (deltaT < 500) {
+        if (deltaT < 20) {
           console.log('waiting for touches');
         } else {
 
